@@ -64,7 +64,7 @@ var items = new List<IPointModel>
 }
 ```
 
-* **Area** is a viewport, an actual chart, each viewport can show several chart types, e.g. a mix of candles and lines.
+* **Area** is a viewport, an actual chart, each viewport can show several types of series, e.g. a mix of candles and lines.
 * **Series** is a single chart type to be displayed in the viewport, e.g. lines. 
 * **Model** is a data point of `dynamic` type, can accept different type of inputs, e.g. double or OHLC box.
 
