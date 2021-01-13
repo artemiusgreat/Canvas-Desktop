@@ -64,9 +64,9 @@ var items = new List<IPointModel>
 }
 ```
 
-* **Area** is a viewport, an actual chart, each viewport can show several chart types, e.g. a mix of candle and line series.
+* **Area** is a viewport, an actual chart, each viewport can show several chart types, e.g. a mix of candles and lines.
 * **Series** is a single chart type to be displayed in the viewport, e.g. lines. 
-* **Model** is a data point that has `dynamic` type and can accept different type of inputs, e.g. a single value or OHLC box.
+* **Model** is a data point of `dynamic` type, can accept different type of inputs, e.g. double or OHLC box.
 
 At this moment, `Painter` supports only horizontal orientation, so the axis X is used as an index scale that picks data points from the source list and axis Y is a value scale that represents hte actual value of each data point. 
 
