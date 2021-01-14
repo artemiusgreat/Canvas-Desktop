@@ -26,7 +26,7 @@ At the moment, there are four built-in chart types.
 
 If there is a need to create a new chart type, then you need to implement `IShape` interface. 
 
-# Data source sample 
+# Data source sample
 
 To simplify sycnhronization of multiple charts, data source has format of a list where each entry point has a time stamp and a set of values to be displayed in each viewport for this time stamp. 
 
