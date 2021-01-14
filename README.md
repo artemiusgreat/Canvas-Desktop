@@ -1,4 +1,4 @@
-# Canvas
+# Canvas 
 
 Generic real-time charts for WPF apps. 
 
