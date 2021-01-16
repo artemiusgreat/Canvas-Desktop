@@ -6,7 +6,7 @@ The main purpose of this app is to be used as a charting tool for real-time fina
 Here is [the most comprehensive guide](https://github.com/artemiusgreat/Csharp-Data-Visualization) dedicated to charting in .NET that I have seen so far. 
 Nevertheless, trying various options from that guide I wasn't able to find anything flexible enough for my needs, so created my own. 
 
-# Drawing methods
+# Drawing Methods
 
 Currently available controls.
 
@@ -15,7 +15,7 @@ Currently available controls.
 
 In order to add a different type of panel, e.g. `GDI+` or `Direct2D`, you need to implement `ICanvasControl` interface.
 
-# Chart types 
+# Chart Types 
 
 At the moment, there are four built-in chart types. 
 
