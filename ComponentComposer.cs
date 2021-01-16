@@ -6,7 +6,6 @@ using Chart.ShapeSpace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -30,7 +29,7 @@ namespace Chart
     public virtual ChartControl Control { get; set; }
     public virtual IList<int> IndexDomain { get; set; }
     public virtual IList<double> ValueDomain { get; set; }
-    public virtual IList<IPointModel> Items { get; set; } = new List<IPointModel>();
+    public virtual IList<IInputModel> Items { get; set; } = new List<IInputModel>();
     public virtual IDictionary<string, IDictionary<string, IShape>> Groups { get; set; } = new Dictionary<string, IDictionary<string, IShape>>();
     public virtual Func<dynamic, dynamic> CreateLabel { get; set; }
 
@@ -118,7 +117,11 @@ namespace Chart
       var cross = new CrossDecorator
       {
         Composer = this,
-        Panel = Control.ViewArea.SetPanel("Cross", new CanvasControl()) as ICanvasControl
+        Panel = Control.ViewArea.SetPanel("Cross", new CanvasControl()) as ICanvasControl,
+        PanelL = Control.AxisL.SetPanel("CrossL", new CanvasControl()) as ICanvasControl,
+        PanelR = Control.AxisR.SetPanel("CrossR", new CanvasControl()) as ICanvasControl,
+        PanelT = Control.AxisT.SetPanel("CrossT", new CanvasControl()) as ICanvasControl,
+        PanelB = Control.AxisB.SetPanel("CrossB", new CanvasControl()) as ICanvasControl
       };
 
       Control.ViewArea.GetPanel("Cross").Background = Brushes.Transparent;
@@ -222,13 +225,13 @@ namespace Chart
       var max = double.MinValue;
       var panel = Control.ViewArea.GetPanel("Shapes") as ICanvasControl;
 
-      Parallel.ForEach(GetEnumerator(), i =>
+      foreach (var i in GetEnumerator())
       {
         var currentItem = Items.ElementAtOrDefault(i);
 
         if (currentItem == null)
         {
-          return;
+          continue;
         }
 
         Groups.TryGetValue(Name, out IDictionary<string, IShape> seriesItems);
@@ -246,9 +249,9 @@ namespace Chart
             max = Math.Max(max, domain[1]);
           }
         }
-      });
+      }
 
-      if (min >= max)
+      if (min > max)
       {
         return _valueDomain = null;
       }
@@ -261,7 +264,7 @@ namespace Chart
     }
 
     /// <summary>
-    /// Transform coordinates
+    /// Convert values to canvas coordinates
     /// </summary>
     /// <param name="panel"></param>
     /// <param name="input"></param>
@@ -295,6 +298,34 @@ namespace Chart
     public virtual Point GetPixels(ICanvasControl panel, double index, double value)
     {
       return GetPixels(panel, new Point(index, value));
+    }
+
+    /// <summary>
+    /// Convert canvas coordinates to values
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="input"></param>
+    public virtual Point GetValues(ICanvasControl panel, Point input)
+    {
+      // Convert to values
+
+      var deltaX = input.X / panel.W;
+      var deltaY = input.Y / panel.H;
+
+      // Percentage to values, Y is inverted
+
+      input.X = MinIndex + (MaxIndex - MinIndex) * deltaX;
+      input.Y = MaxValue - (MaxValue - MinValue) * deltaY;
+
+      return input;
+    }
+
+    /// <summary>
+    /// Format content
+    /// </summary>
+    public virtual string CreateContent(dynamic position)
+    {
+      return $"{position:0.00}";
     }
   }
 }

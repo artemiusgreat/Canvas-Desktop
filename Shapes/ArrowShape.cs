@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace Chart.ShapeSpace
 {
-  public class BarShape : BaseShape, IShape
+  public class ArrowShape : BaseShape, IShape
   {
     /// <summary>
     /// Render the shape
@@ -24,21 +24,27 @@ namespace Chart.ShapeSpace
         return;
       }
 
-      var size = Math.Max(position - (position - 1.0), 0.0) / 4;
+      var size = Math.Max(position - (position - 1.0), 0.0) / 4.0;
+      var color = Brushes.Blue.Color;
+      var direction = 1.0;
+
+      if (currentModel.Open > currentModel.Close)
+      {
+        color = Brushes.Black.Color;
+        direction = -1.0;
+      }
 
       var shapeModel = new ShapeModel
       {
         Size = 1,
-        Color = Brushes.Black.Color
+        Color = color
       };
 
       var points = new Point[]
       {
-        Composer.GetPixels(Panel, position - size, currentModel.Point),
-        Composer.GetPixels(Panel, position + size, currentModel.Point),
-        Composer.GetPixels(Panel, position + size, Composer.MinValue),
-        Composer.GetPixels(Panel, position - size, Composer.MinValue),
-        Composer.GetPixels(Panel, position - size, currentModel.Point)
+        Composer.GetPixels(Panel, position, currentModel.Point),
+        Composer.GetPixels(Panel, position + size, currentModel.Point - size * direction * 4.0),
+        Composer.GetPixels(Panel, position - size, currentModel.Point - size * direction * 4.0),
       };
 
       Panel.CreateShape(points, shapeModel);

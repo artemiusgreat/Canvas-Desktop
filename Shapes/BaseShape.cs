@@ -24,7 +24,7 @@ namespace Chart.ShapeSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    double[] CreateDomain(int position, string series, IList<IPointModel> items);
+    double[] CreateDomain(int position, string series, IList<IInputModel> items);
 
     /// <summary>
     /// Create the shape
@@ -33,7 +33,7 @@ namespace Chart.ShapeSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    void CreateShape(int position, string series, IList<IPointModel> items);
+    void CreateShape(int position, string series, IList<IInputModel> items);
   }
 
   public abstract class BaseShape : IShape
@@ -49,25 +49,58 @@ namespace Chart.ShapeSpace
     public virtual ICanvasControl Panel { get; set; }
 
     /// <summary>
+    /// Get data model
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="series"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    public virtual dynamic GetModel(int position, string series, IList<IInputModel> items)
+    {
+      var pointModel = items.ElementAtOrDefault(position);
+
+      if (pointModel == null || pointModel.Areas == null)
+      {
+        return null;
+      }
+
+      pointModel.Areas.TryGetValue(Composer.Name, out IAreaModel areaModel);
+
+      if (areaModel == null || areaModel.Series == null)
+      {
+        return null;
+      }
+
+      areaModel.Series.TryGetValue(series, out ISeriesModel seriesModel);
+
+      if (seriesModel == null || seriesModel.Model == null)
+      {
+        return null;
+      }
+
+      return seriesModel.Model;
+    }
+
+    /// <summary>
     /// Get Min and Max for the current point
     /// </summary>
     /// <param name="position"></param>
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public virtual double[] CreateDomain(int position, string series, IList<IPointModel> items)
+    public virtual double[] CreateDomain(int position, string series, IList<IInputModel> items)
     {
-      var currentItem = items.ElementAtOrDefault(position);
+      var currentModel = GetModel(position, series, items);
 
-      if (currentItem == null)
+      if (currentModel == null)
       {
         return null;
       }
 
       return new double[]
       {
-        currentItem.Areas[Composer.Name].Series[series].Model.Point,
-        currentItem.Areas[Composer.Name].Series[series].Model.Point
+        currentModel.Point,
+        currentModel.Point
       };
     }
 
@@ -78,7 +111,7 @@ namespace Chart.ShapeSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public virtual void CreateShape(int position, string series, IList<IPointModel> items)
+    public virtual void CreateShape(int position, string series, IList<IInputModel> items)
     {
     }
   }

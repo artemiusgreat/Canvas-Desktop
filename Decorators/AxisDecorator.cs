@@ -35,34 +35,34 @@ namespace Chart.DecoratorSpace
       {
         case PositionEnum.Left:
 
-          pointMin = new Point(maxIndex, minValue);
-          pointMax = new Point(maxIndex, maxValue);
+          pointMin = new Point(Panel.W, 0);
+          pointMax = new Point(Panel.W, Panel.H);
 
           break;
 
         case PositionEnum.Right:
 
-          pointMin = new Point(minIndex, minValue);
-          pointMax = new Point(minIndex, maxValue);
+          pointMin = new Point(0, 0);
+          pointMax = new Point(0, Panel.H);
 
           break;
 
         case PositionEnum.Top:
 
-          pointMin = new Point(minIndex, minValue);
-          pointMax = new Point(maxIndex, minValue);
+          pointMin = new Point(0, Panel.H);
+          pointMax = new Point(Panel.W, Panel.H);
 
           break;
 
         case PositionEnum.Bottom:
 
-          pointMin = new Point(minIndex, maxValue);
-          pointMax = new Point(maxIndex, maxValue);
+          pointMin = new Point(0, 0);
+          pointMax = new Point(Panel.W, 0);
 
           break;
       }
 
-      Panel.CreateLine(Composer.GetPixels(Panel, pointMin), Composer.GetPixels(Panel, pointMax), shapeModel);
+      Panel.CreateLine(pointMin, pointMax, shapeModel);
 
       switch (Position)
       {

@@ -1,7 +1,6 @@
 using Chart.ModelSpace;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -16,19 +15,19 @@ namespace Chart.ShapeSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public override double[] CreateDomain(int position, string series, IList<IPointModel> items)
+    public override double[] CreateDomain(int position, string series, IList<IInputModel> items)
     {
-      var currentItem = items.ElementAtOrDefault(position);
+      var currentModel = GetModel(position, series, items);
 
-      if (currentItem == null)
+      if (currentModel == null)
       {
         return null;
       }
 
       return new double[]
       {
-        currentItem.Areas[Composer.Name].Series[series].Model.Low ?? currentItem.Areas[Composer.Name].Series[series].Model.Point,
-        currentItem.Areas[Composer.Name].Series[series].Model.High ?? currentItem.Areas[Composer.Name].Series[series].Model.Point
+        currentModel.Low ?? currentModel.Point,
+        currentModel.High ?? currentModel.Point
       };
     }
 
@@ -39,24 +38,29 @@ namespace Chart.ShapeSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public override void CreateShape(int position, string series, IList<IPointModel> items)
+    public override void CreateShape(int position, string series, IList<IInputModel> items)
     {
-      var currentItem = items.ElementAtOrDefault(position);
+      var currentModel = GetModel(position, series, items);
 
-      if (currentItem == null)
+      if (currentModel == null)
       {
         return;
       }
 
       var size = Math.Max(position - (position - 1.0), 0.0) / 4.0;
-      var currentModel = currentItem.Areas[Composer.Name].Series[series].Model;
       var upSide = Math.Max(currentModel.Open, currentModel.Close);
       var downSide = Math.Min(currentModel.Open, currentModel.Close);
+      var color = Brushes.Green.Color;
+
+      if (currentModel.Open > currentModel.Close)
+      {
+        color = Brushes.Red.Color;
+      }
 
       var shapeModel = new ShapeModel
       {
         Size = 1,
-        Color = currentModel.Open < currentModel.Close ? Brushes.Green.Color : Brushes.Red.Color
+        Color = color
       };
 
       var points = new Point[]

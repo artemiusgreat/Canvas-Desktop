@@ -21,15 +21,12 @@ namespace Chart.DecoratorSpace
     /// <summary>
     /// Custom label renderer
     /// </summary>
-    public virtual Func<dynamic, dynamic> ShowLabel { get; set; }
+    public virtual Func<dynamic, dynamic> ShowIndex { get; set; }
 
     /// <summary>
-    /// Create label
+    /// Custom label renderer
     /// </summary>
-    public virtual string ShowLabelDelegate(dynamic position)
-    {
-      return $"{position:0.00}";
-    }
+    public virtual Func<dynamic, dynamic> ShowValue { get; set; }
 
     /// <summary>
     /// Create component
@@ -52,7 +49,8 @@ namespace Chart.DecoratorSpace
     /// </summary>
     protected virtual void CreateLabel()
     {
-      ShowLabel ??= ShowLabelDelegate;
+      ShowIndex ??= Composer.CreateContent;
+      ShowValue ??= Composer.CreateContent;
 
       var minIndex = Composer.MinIndex;
       var maxIndex = Composer.MaxIndex;
@@ -80,7 +78,7 @@ namespace Chart.DecoratorSpace
           for (var i = 1; i < valueCount; i++)
           {
             point.Y = step * i + contentModel.Size / 3;
-            Panel.CreateLabel(point, ShowLabel(minValue + (valueCount - i) * valueStep), contentModel);
+            Panel.CreateLabel(point, ShowValue(minValue + (valueCount - i) * valueStep), contentModel);
           }
 
           break;
@@ -95,7 +93,7 @@ namespace Chart.DecoratorSpace
           for (var i = 1; i < valueCount; i++)
           {
             point.Y = step * i + contentModel.Size / 3;
-            Panel.CreateLabel(point, ShowLabel(minValue + (valueCount - i) * valueStep), contentModel);
+            Panel.CreateLabel(point, ShowValue(minValue + (valueCount - i) * valueStep), contentModel);
           }
 
           break;
@@ -110,7 +108,7 @@ namespace Chart.DecoratorSpace
           for (var i = 1; i < indexCount; i++)
           {
             point.X = step * i;
-            Panel.CreateLabel(point, ShowLabel(minIndex + i * indexStep), contentModel);
+            Panel.CreateLabel(point, ShowIndex(minIndex + i * indexStep), contentModel);
           }
 
           break;
@@ -125,7 +123,7 @@ namespace Chart.DecoratorSpace
           for (var i = 1; i < indexCount; i++)
           {
             point.X = step * i;
-            Panel.CreateLabel(point, ShowLabel(minIndex + i * indexStep), contentModel);
+            Panel.CreateLabel(point, ShowIndex(minIndex + i * indexStep), contentModel);
           }
 
           break;

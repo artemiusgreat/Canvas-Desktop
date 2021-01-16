@@ -4,14 +4,6 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>Painter</PackageId>
-    <Version>0.0.9-prerelease</Version>
-    <Authors>Anonymous</Authors>
-    <Company>Anonymous</Company>
-    <Product>Painter</Product>
-    <Description>Generic charts for WPF apps.</Description>
-    <Copyright>Anonymous</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.1-dev-00188" />
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.3-preview.18" />
     <PackageReference Include="System.Interactive" Version="5.0.0" />
   </ItemGroup>

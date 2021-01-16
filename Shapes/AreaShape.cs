@@ -1,6 +1,5 @@
 using Chart.ModelSpace;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -15,18 +14,15 @@ namespace Chart.ShapeSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public override void CreateShape(int position, string series, IList<IPointModel> items)
+    public override void CreateShape(int position, string series, IList<IInputModel> items)
     {
-      var currentItem = items.ElementAtOrDefault(position);
-      var previousItem = items.ElementAtOrDefault(position - 1);
+      var currentModel = GetModel(position, series, items);
+      var previousModel = GetModel(position - 1, series, items);
 
-      if (currentItem == null || previousItem == null)
+      if (currentModel == null || previousModel == null)
       {
         return;
       }
-
-      var currentModel = currentItem.Areas[Composer.Name].Series[series].Model;
-      var previousModel = previousItem.Areas[Composer.Name].Series[series].Model;
 
       var shapeModel = new ShapeModel
       {

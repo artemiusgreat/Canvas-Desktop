@@ -19,11 +19,11 @@ namespace Chart
     private int _index = 0;
     private DateTime _time = DateTime.Now;
     private Random _generator = new Random();
-    private IList<IPointModel> _items = new List<IPointModel>();
+    private IList<IInputModel> _items = new List<IInputModel>();
     private IList<ComponentComposer> _composers = new List<ComponentComposer>();
     private IDictionary<string, IDictionary<string, IShape>> _groups = new Dictionary<string, IDictionary<string, IShape>>
     {
-      ["Candles"] = new Dictionary<string, IShape> { ["Candles X"] = new CandleShape(), ["Candles & Lines X"] = new LineShape() },
+      ["Candles"] = new Dictionary<string, IShape> { ["Candles X"] = new CandleShape(), ["Candles & Lines X"] = new LineShape(), ["Arrows"] = new ArrowShape() },
       ["Lines"] = new Dictionary<string, IShape> { ["Lines X"] = new LineShape(), ["Lines Y"] = new LineShape() },
       ["Bars"] = new Dictionary<string, IShape> { ["Bars X"] = new BarShape() },
       ["Areas"] = new Dictionary<string, IShape> { ["Areas X"] = new AreaShape() }
@@ -42,7 +42,7 @@ namespace Chart
     /// </summary>
     private void OnData()
     {
-      var pointModel = new PointModel
+      var pointModel = new InputModel
       {
         Time = _time,
       };
@@ -73,7 +73,7 @@ namespace Chart
 
       _items.Add(pointModel);
 
-      Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+      Dispatcher.BeginInvoke(new Action(() =>
       {
         foreach (var composer in _composers)
         {
