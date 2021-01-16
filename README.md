@@ -13,7 +13,7 @@ Currently available controls.
 * CanvasControl - extended WPF `Canvas` control exposing `DrawingContext` used with `Shapes` and `Geometries`
 * CanvasImageControl - a wrapper around [SkiaSharp](https://github.com/mono/SkiaSharp) and Open GL 
 
-In order to add a different type of panel, e.g. `GDI+`, you need to implement `ICanvasControl` interface.
+In order to add a different type of panel, e.g. `GDI+` or `Direct2D`, you need to implement `ICanvasControl` interface.
 
 # Chart types 
 
