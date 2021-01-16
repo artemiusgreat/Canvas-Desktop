@@ -43,7 +43,7 @@ MinIndex -= 1
 MaxIndex -= 1
 ```
 
-To pan the chart to the left, add arbitrary value from both `MinIndex` and `MaxIndex`. 
+To pan the chart to the left, do the opposite. 
 
 ```
 MinIndex += 1
