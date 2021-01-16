@@ -28,40 +28,32 @@ If there is a need to create a new chart type, then you need to implement `IShap
 
 # Data source sample
 
-To simplify sycnhronization of multiple charts, data source has format of a list where each entry point has a time stamp and a set of values to be displayed in each viewport for this time stamp. 
+To simplify sycnhronization of multiple charts, data source has format of a list where each entry point has a time stamp and a set of Areas and Series that will be rendered in the relevant viewport. 
 
 ```
-var seriesA = new SeriesModel
-{
-  Name = "Candles",
-  Model = { Low = 5, High = 10, Open = 6, Close = 8 }
-}
-
-var seriesB = new SeriesModel
-{
-  Name = "Lines",
-  Model = 15
-}
-
-var items = new List<IPointModel>
-{
-  new PointModel 
+[
+  DateTime
   {
-    Time = DateTime.Now,
-    Areas = new Dictionary<string, IAreaModel>  
+    Area A
     {
-      ["Candles & Lines"] = new AreaModel 
-      {
-        Name = "Candles & Lines", 
-        Series = new Dictionary<string, ISeriesModel> 
-        {
-          ["Series A"] = seriesA, 
-          ["Series B"] = seriesB
-        }
-      }
+      Line Series => double,
+      Candle Series => OHLC
+    },
+    Area B 
+    {
+      Line Series => double,
+      Line Series => double
+    },
+    Area C 
+    {
+      Bar Series => double
     }
-  }
-}
+  }, 
+  DateTime,
+  DateTime,
+  DateTime
+]
+
 ```
 
 * **Area** is a viewport, an actual chart, each viewport can show several types of series, e.g. a mix of candles and lines.
