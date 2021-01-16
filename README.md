@@ -1,4 +1,4 @@
-# Canvas 
+# Canvas, Direct 2D, and Open GL Stock Charts
 
 Generic real-time charts for WPF apps. 
 
