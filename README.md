@@ -19,10 +19,10 @@ In order to add a different type of panel, e.g. `GDI+`, you need to implement `I
 
 At the moment, there are four built-in chart types. 
 
-* Candle - OHLC box
-* Area - polygon
 * Line - line 
-* Bar - box
+* Bar - polygon
+* Area - polygon
+* Candle - OHLC box, a mix of a line and a rectangle polygon
 
 If there is a need to create a new chart type, then you need to implement `IShape` interface. 
 
