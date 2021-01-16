@@ -26,6 +26,44 @@ At the moment, there are four built-in chart types.
 
 If there is a need to create a new chart type, then you need to implement `IShape` interface. 
 
+# Pan and Zoom 
+
+The chart is completely data-centric, thus in order to scale the chart you need to change the data source. 
+By default, the chart displays last 100 data points, as defined in `IndexCount` property. 
+
+```
+MinIndex = Items.Count - IndexCount
+MaxIndex = Items.Count
+```
+
+To pan the chart to the left, subtract arbitrary value from both `MinIndex` and `MaxIndex`. 
+
+```
+MinIndex -= 1
+MaxIndex -= 1
+```
+
+To pan the chart to the left, add arbitrary value from both `MinIndex` and `MaxIndex`. 
+
+```
+MinIndex += 1
+MaxIndex += 1
+```
+
+To zoom in, increase `MinIndex` and decrease `MaxIndex` to decrease number of visible points. 
+
+```
+MinIndex += 1
+MaxIndex -= 1
+```
+
+To zoom out, do the opposite. 
+
+```
+MinIndex -= 1
+MaxIndex += 1
+```
+
 # Data source sample
 
 To simplify sycnhronization of multiple charts, data source has format of a list where each entry point has a time stamp and a set of Areas and Series that will be rendered in the relevant viewport. 
