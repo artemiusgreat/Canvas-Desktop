@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,6 +11,15 @@ namespace Chart.ControlSpace
     /// Cache
     /// </summary>
     protected IDictionary<string, Panel> _panels = new Dictionary<string, Panel>();
+
+    /// <summary>
+    /// Clear
+    /// </summary>
+    public void ClearPanels()
+    {
+      _panels.ForEach(o => o.Value.Children.Clear());
+      _panels.Clear();
+    }
 
     /// <summary>
     /// Get panel by name

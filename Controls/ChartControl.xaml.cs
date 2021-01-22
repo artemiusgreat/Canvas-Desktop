@@ -157,12 +157,13 @@ namespace Chart.ControlSpace
     {
       Composer.IndexDomain ??= new int[2];
 
-      var isInRange = Composer.IndexDomain[1] - Composer.IndexDomain[0] - delta * 2 > Composer.IndexLabelCount;
+      var increment = Composer.IndexLabelCount / 2 * delta;
+      var isInRange = Composer.IndexDomain[1] - Composer.IndexDomain[0] - increment * 2 > increment * 2;
 
       if (isZoom && isInRange)
       {
-        Composer.IndexDomain[0] += delta;
-        Composer.IndexDomain[1] -= delta;
+        Composer.IndexDomain[0] += increment;
+        Composer.IndexDomain[1] -= increment;
         Composer.Update();
         Sync();
         return;
@@ -170,8 +171,8 @@ namespace Chart.ControlSpace
 
       if (delta > 0)
       {
-        Composer.IndexDomain[0] += Math.Abs(delta);
-        Composer.IndexDomain[1] += Math.Abs(delta);
+        Composer.IndexDomain[0] += Math.Abs(increment);
+        Composer.IndexDomain[1] += Math.Abs(increment);
         Composer.Update();
         Sync();
         return;
@@ -179,8 +180,8 @@ namespace Chart.ControlSpace
 
       if (delta < 0)
       {
-        Composer.IndexDomain[0] -= Math.Abs(delta);
-        Composer.IndexDomain[1] -= Math.Abs(delta);
+        Composer.IndexDomain[0] -= Math.Abs(increment);
+        Composer.IndexDomain[1] -= Math.Abs(increment);
         Composer.Update();
         Sync();
         return;

@@ -22,7 +22,6 @@
       <ColumnDefinition Width="Auto"></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <local:CanvasContainerControl
-      ClipToBounds="True"
       Background="Transparent"
       x:Name="ViewArea"
       Grid.Row="1"

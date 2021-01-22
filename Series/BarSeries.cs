@@ -16,7 +16,7 @@ namespace Chart.SeriesSpace
     /// <returns></returns>
     public override void CreateItem(int position, string series, IList<IInputModel> items)
     {
-      var currentModel = GetModel(position, series, items);
+      dynamic currentModel = GetModel(position, series, items);
 
       if (currentModel == null)
       {
@@ -28,15 +28,15 @@ namespace Chart.SeriesSpace
       var shapeModel = new ShapeModel
       {
         Size = 1,
-        Color = Color
+        Color = currentModel.Color ?? Color
       };
 
       var points = new Point[]
       {
         Composer.GetPixels(Panel, position - size, currentModel.Point),
         Composer.GetPixels(Panel, position + size, currentModel.Point),
-        Composer.GetPixels(Panel, position + size, Composer.MinValue),
-        Composer.GetPixels(Panel, position - size, Composer.MinValue),
+        Composer.GetPixels(Panel, position + size, 0.0),
+        Composer.GetPixels(Panel, position - size, 0.0),
         Composer.GetPixels(Panel, position - size, currentModel.Point)
       };
 

@@ -25,7 +25,7 @@ namespace Chart.SeriesSpace
       var shapeModel = new ShapeModel
       {
         Size = 1,
-        Color = Color
+        Color = currentModel.Color ?? Color
       };
 
       Panel.CreateLine(

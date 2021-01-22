@@ -9,16 +9,6 @@ namespace Chart.SeriesSpace
   public class CandleSeries : BaseSeries, ISeries
   {
     /// <summary>
-    /// Negative color
-    /// </summary>
-    public virtual Color ColorUp { get; set; } = Brushes.LimeGreen.Color;
-
-    /// <summary>
-    /// Positive color
-    /// </summary>
-    public virtual Color ColorDown { get; set; } = Brushes.OrangeRed.Color;
-
-    /// <summary>
     /// Get Min and Max for the current point
     /// </summary>
     /// <param name="position"></param>
@@ -64,7 +54,7 @@ namespace Chart.SeriesSpace
       var shapeModel = new ShapeModel
       {
         Size = 1,
-        Color = currentModel.Open > currentModel.Close ? ColorDown : ColorUp
+        Color = currentModel.Color ?? Color
       };
 
       var points = new Point[]

@@ -3,6 +3,7 @@ using Chart.ModelSpace;
 using Chart.SeriesSpace;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,8 +66,17 @@ namespace Chart
           input.Open = input.Low + _generator.Next(1, 10);
           input.Close = input.Low + _generator.Next(1, 10);
           input.High = Math.Max(input.Open, input.Close) + _generator.Next(1, 10);
-          input.Point = input.Close;
           input.Direction = input.Close > input.Open ? 1.0 : -1.0;
+          input.Point = input.Close;
+          input.Color = input.Close > input.Open || input.Direction > 0 ? Brushes.LimeGreen.Color : Brushes.OrangeRed.Color;
+
+          switch (series.Value)
+          {
+            case BarSeries o: input.Point *= input.Direction; break;
+            case LineSeries o: input.Color = Brushes.Black.Color; break;
+            case ArrowSeries o: input.Color = Brushes.Black.Color; break;
+            case AreaSeries o: input.Color = Brushes.DarkGray.Color; break;
+          }
 
           pointModel.Areas[area.Key].Series[series.Key].Model = input;
         }
@@ -104,7 +114,16 @@ namespace Chart
           {
             Name = area.Key,
             Groups = _groups,
-            Control = chartControl
+            Control = chartControl,
+            ShowIndexAction = (i) =>
+            {
+              var date =
+                _items.ElementAtOrDefault((int)i)?.Time ??
+                _items.ElementAtOrDefault(0)?.Time ??
+                DateTime.Now;
+
+              return $"{date:yyyy-MM-dd HH:mm}";
+            }
           };
 
           _composers.Add(chartControl.Composer = composer);

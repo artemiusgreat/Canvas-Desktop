@@ -26,15 +26,15 @@ namespace Chart.SeriesSpace
       var shapeModel = new ShapeModel
       {
         Size = 1,
-        Color = Color
+        Color = currentModel.Color ?? Color
       };
 
       var points = new Point[]
       {
         Composer.GetPixels(Panel, position - 1, previousModel.Point),
         Composer.GetPixels(Panel, position, currentModel.Point),
-        Composer.GetPixels(Panel, position, Composer.MinValue),
-        Composer.GetPixels(Panel, position - 1, Composer.MinValue),
+        Composer.GetPixels(Panel, position, 0.0),
+        Composer.GetPixels(Panel, position - 1, 0.0),
         Composer.GetPixels(Panel, position - 1, previousModel.Point)
       };
 

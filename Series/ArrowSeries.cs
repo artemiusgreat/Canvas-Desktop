@@ -1,22 +1,11 @@
 using Chart.ModelSpace;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Chart.SeriesSpace
 {
   public class ArrowSeries : BaseSeries, ISeries
   {
-    /// <summary>
-    /// Negative color
-    /// </summary>
-    public virtual Color ColorUp { get; set; } = Brushes.Black.Color;
-
-    /// <summary>
-    /// Positive color
-    /// </summary>
-    public virtual Color ColorDown { get; set; } = Brushes.Blue.Color;
-
     /// <summary>
     /// Render the shape
     /// </summary>
@@ -38,7 +27,7 @@ namespace Chart.SeriesSpace
       var shapeModel = new ShapeModel
       {
         Size = 1,
-        Color = currentModel.Direction < 0 ? ColorDown : ColorUp
+        Color = currentModel.Color ?? Color
       };
 
       var points = new Point[]

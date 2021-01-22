@@ -26,7 +26,7 @@ namespace Chart
     /// </summary>
     public virtual string Name { get; set; }
     public virtual int StepSize { get; set; } = 5;
-    public virtual int ValueCount { get; set; } = 5;
+    public virtual int ValueCount { get; set; } = 6;
     public virtual int IndexCount { get; set; } = 100;
     public virtual int IndexLabelCount { get; set; } = 10;
     public virtual ChartControl Control { get; set; }
@@ -358,14 +358,18 @@ namespace Chart
         return _valueDomain = null;
       }
 
-      _valueDomain ??= new double[2];
-      _valueDomain[0] = min;
-      _valueDomain[1] = max;
+      var step = (max - min) / ValueCount;
 
-      if (min == max)
+      _valueDomain ??= new double[2];
+      _valueDomain[0] = min - step;
+      _valueDomain[1] = max + step;
+
+      if (min <= 0 && max >= 0)
       {
-        _valueDomain[0] -= 1.0;
-        _valueDomain[1] += 1.0;
+        var domain = Math.Max(max, Math.Abs(min));
+
+        _valueDomain[0] = -domain;
+        _valueDomain[1] = domain;
       }
 
       return _valueDomain;
