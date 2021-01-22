@@ -1,39 +1,41 @@
 using Chart.ModelSpace;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Media;
+using System.Windows;
 
 namespace Chart.ShapeSpace
 {
   public class LineShape : BaseShape, IShape
   {
-    /// <summary>
-    /// Render the shape
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="series"></param>
-    /// <param name="items"></param>
-    /// <returns></returns>
-    public override void CreateShape(int position, string series, IList<IInputModel> items)
-    {
-      var currentModel = GetModel(position, series, items);
-      var previousModel = GetModel(position - 1, series, items);
+    public virtual IList<int> IndexLevels { get; set; } = new List<int>();
+    public virtual IList<double> ValueLevels { get; set; } = new List<double>();
 
-      if (currentModel == null || previousModel == null)
+    public override void UpdateShape()
+    {
+      var shapeModel = new ShapeModel { Size = 1, Color = Color };
+      var pointMin = new Point(0, 0);
+      var pointMax = new Point(0, 0);
+
+      foreach (var level in IndexLevels)
       {
-        return;
+        var pixelLevel = Composer.GetPixels(Panel, level, 0);
+
+        pointMin.X = pointMax.X = pixelLevel.X;
+        pointMin.Y = 0;
+        pointMax.Y = Panel.H;
+
+        Panel.CreateLine(pointMin, pointMax, shapeModel);
       }
 
-      var shapeModel = new ShapeModel
+      foreach (var level in ValueLevels)
       {
-        Size = 1,
-        Color = Brushes.Black.Color
-      };
+        var pixelLevel = Composer.GetPixels(Panel, 0, level);
 
-      Panel.CreateLine(
-        Composer.GetPixels(Panel, position - 1, previousModel.Point),
-        Composer.GetPixels(Panel, position, currentModel.Point),
-        shapeModel);
+        pointMin.Y = pointMax.Y = pixelLevel.Y;
+        pointMin.X = 0;
+        pointMax.X = Panel.W;
+
+        Panel.CreateLine(pointMin, pointMax, shapeModel);
+      }
     }
   }
 }

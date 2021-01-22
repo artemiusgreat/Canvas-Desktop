@@ -1,8 +1,8 @@
 using Chart.EnumSpace;
-using Chart.ModelSpace;
-using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Chart.DecoratorSpace
 {
@@ -18,18 +18,15 @@ namespace Chart.DecoratorSpace
     /// </summary>
     public override void CreateDelegate()
     {
-      var minIndex = Composer.MinIndex;
-      var maxIndex = Composer.MaxIndex;
-      var minValue = Composer.MinValue;
-      var maxValue = Composer.MaxValue;
+      var canvas = Panel as Canvas;
       var stepSize = Composer.StepSize;
       var indexCount = Composer.IndexLabelCount;
       var valueCount = Composer.ValueCount;
-
-      var step = 0.0;
       var pointMin = new Point(0, 0);
       var pointMax = new Point(0, 0);
-      var shapeModel = new ShapeModel { Size = 1, Color = Brushes.Black.Color };
+      var step = 0.0;
+
+      canvas.Children.Clear();
 
       switch (Position)
       {
@@ -62,7 +59,7 @@ namespace Chart.DecoratorSpace
           break;
       }
 
-      Panel.CreateLine(pointMin, pointMax, shapeModel);
+      canvas.Children.Add(CreateLine(pointMin, pointMax));
 
       switch (Position)
       {
@@ -76,7 +73,7 @@ namespace Chart.DecoratorSpace
           {
             pointMin.Y += step;
             pointMax.Y += step;
-            Panel.CreateLine(pointMin, pointMax, shapeModel);
+            canvas.Children.Add(CreateLine(pointMin, pointMax));
           }
 
           break;
@@ -91,7 +88,7 @@ namespace Chart.DecoratorSpace
           {
             pointMin.Y += step;
             pointMax.Y += step;
-            Panel.CreateLine(pointMin, pointMax, shapeModel);
+            canvas.Children.Add(CreateLine(pointMin, pointMax));
           }
 
           break;
@@ -106,7 +103,7 @@ namespace Chart.DecoratorSpace
           {
             pointMin.X += step;
             pointMax.X += step;
-            Panel.CreateLine(pointMin, pointMax, shapeModel);
+            canvas.Children.Add(CreateLine(pointMin, pointMax));
           }
 
           break;
@@ -121,11 +118,31 @@ namespace Chart.DecoratorSpace
           {
             pointMin.X += step;
             pointMax.X += step;
-            Panel.CreateLine(pointMin, pointMax, shapeModel);
+            canvas.Children.Add(CreateLine(pointMin, pointMax));
           }
 
           break;
       }
+    }
+
+    /// <summary>
+    /// Create line
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="destination"></param>
+    /// <returns></returns>
+    private Line CreateLine(Point source, Point destination)
+    {
+      return new Line
+      {
+        X1 = source.X,
+        Y1 = source.Y,
+        X2 = destination.X,
+        Y2 = destination.Y,
+        StrokeThickness = 1,
+        Stroke = new SolidColorBrush(Color),
+        StrokeDashArray = new DoubleCollection(new[] { 5.0, 5.0 })
+      };
     }
   }
 }

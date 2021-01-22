@@ -2,11 +2,13 @@ using Chart.ControlSpace;
 using Chart.DecoratorSpace;
 using Chart.EnumSpace;
 using Chart.ModelSpace;
+using Chart.SeriesSpace;
 using Chart.ShapeSpace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Chart
@@ -15,6 +17,7 @@ namespace Chart
   {
     protected IList<int> _indexDomain = null;
     protected IList<double> _valueDomain = null;
+    protected IList<IShape> _shapes = new List<IShape>();
     protected IList<IDecorator> _decorators = new List<IDecorator>();
     protected IList<IDecorator> _decoratorsUpdates = new List<IDecorator>();
 
@@ -30,8 +33,9 @@ namespace Chart
     public virtual IList<int> IndexDomain { get; set; }
     public virtual IList<double> ValueDomain { get; set; }
     public virtual IList<IInputModel> Items { get; set; } = new List<IInputModel>();
-    public virtual IDictionary<string, IDictionary<string, IShape>> Groups { get; set; } = new Dictionary<string, IDictionary<string, IShape>>();
-    public virtual Func<dynamic, dynamic> CreateLabel { get; set; }
+    public virtual IDictionary<string, IDictionary<string, ISeries>> Groups { get; set; } = new Dictionary<string, IDictionary<string, ISeries>>();
+    public virtual Func<dynamic, dynamic> ShowIndexAction { get; set; }
+    public virtual Func<dynamic, dynamic> ShowValueAction { get; set; }
 
     /// <summary>
     /// Getters
@@ -50,81 +54,98 @@ namespace Chart
     /// </summary>
     public virtual void Create()
     {
+      CreateDecorators();
+      CreateSeries();
+      CreateShapes();
+    }
+
+    /// <summary>
+    /// Create decorators
+    /// </summary>
+    public virtual void CreateDecorators()
+    {
       var grid = new GridDecorator
       {
         Composer = this,
-        Panel = Control.ViewArea.SetPanel("Grid", new CanvasImageControl()) as ICanvasControl
+        Color = Brushes.LightGray.Color,
+        Panel = Control.ViewArea.SetPanel("Grid", new CanvasControl()) as ICanvasControl
       };
 
       var axisT = new AxisDecorator
       {
         Composer = this,
         Position = PositionEnum.Top,
-        Panel = Control.AxisT.SetPanel("AxisT", new CanvasImageControl()) as ICanvasControl
+        Color = Brushes.DarkGray.Color,
+        Panel = Control.AxisT.SetPanel("AxisT", new CanvasControl()) as ICanvasControl
       };
 
       var axisB = new AxisDecorator
       {
         Composer = this,
         Position = PositionEnum.Bottom,
-        Panel = Control.AxisB.SetPanel("AxisB", new CanvasImageControl()) as ICanvasControl
+        Color = Brushes.DarkGray.Color,
+        Panel = Control.AxisB.SetPanel("AxisB", new CanvasControl()) as ICanvasControl
       };
 
       var axisL = new AxisDecorator
       {
         Composer = this,
         Position = PositionEnum.Left,
-        Panel = Control.AxisL.SetPanel("AxisL", new CanvasImageControl()) as ICanvasControl
+        Color = Brushes.DarkGray.Color,
+        Panel = Control.AxisL.SetPanel("AxisL", new CanvasControl()) as ICanvasControl
       };
 
       var axisR = new AxisDecorator
       {
         Composer = this,
         Position = PositionEnum.Right,
-        Panel = Control.AxisR.SetPanel("AxisR", new CanvasImageControl()) as ICanvasControl
+        Color = Brushes.DarkGray.Color,
+        Panel = Control.AxisR.SetPanel("AxisR", new CanvasControl()) as ICanvasControl
       };
 
       var labelsT = new LabelDecorator
       {
         Composer = this,
         Position = PositionEnum.Top,
-        Panel = Control.AxisT.SetPanel("LabelsT", new CanvasImageControl()) as ICanvasControl
+        Panel = Control.AxisT.SetPanel("LabelsT", new CanvasControl()) as ICanvasControl
       };
 
       var labelsB = new LabelDecorator
       {
         Composer = this,
         Position = PositionEnum.Bottom,
-        Panel = Control.AxisB.SetPanel("LabelsB", new CanvasImageControl()) as ICanvasControl
+        Panel = Control.AxisB.SetPanel("LabelsB", new CanvasControl()) as ICanvasControl
       };
 
       var labelsL = new LabelDecorator
       {
         Composer = this,
         Position = PositionEnum.Left,
-        Panel = Control.AxisL.SetPanel("LabelsL", new CanvasImageControl()) as ICanvasControl
+        Panel = Control.AxisL.SetPanel("LabelsL", new CanvasControl()) as ICanvasControl
       };
 
       var labelsR = new LabelDecorator
       {
         Composer = this,
         Position = PositionEnum.Right,
-        Panel = Control.AxisR.SetPanel("LabelsR", new CanvasImageControl()) as ICanvasControl
+        Panel = Control.AxisR.SetPanel("LabelsR", new CanvasControl()) as ICanvasControl
       };
 
-      Control.ViewArea.SetPanel("Shapes", new CanvasImageControl());
+      var crossView = Control.ViewArea.SetPanel("Cross", new CanvasControl());
 
       var cross = new CrossDecorator
       {
         Composer = this,
-        Panel = Control.ViewArea.SetPanel("Cross", new CanvasControl()) as ICanvasControl,
+        Panel = crossView as ICanvasControl,
         PanelL = Control.AxisL.SetPanel("CrossL", new CanvasControl()) as ICanvasControl,
         PanelR = Control.AxisR.SetPanel("CrossR", new CanvasControl()) as ICanvasControl,
         PanelT = Control.AxisT.SetPanel("CrossT", new CanvasControl()) as ICanvasControl,
         PanelB = Control.AxisB.SetPanel("CrossB", new CanvasControl()) as ICanvasControl
       };
 
-      Control.ViewArea.GetPanel("Cross").Background = Brushes.Transparent;
+      crossView.Background = Brushes.Transparent;
+
+      Panel.SetZIndex(crossView, 100);
 
       _decorators.Clear();
       _decorators.Add(grid);
@@ -133,6 +154,10 @@ namespace Chart
       _decorators.Add(axisL);
       _decorators.Add(axisR);
       _decorators.Add(cross);
+      _decorators.Add(labelsT);
+      _decorators.Add(labelsB);
+      _decorators.Add(labelsL);
+      _decorators.Add(labelsR);
       _decoratorsUpdates.Add(labelsT);
       _decoratorsUpdates.Add(labelsB);
       _decoratorsUpdates.Add(labelsL);
@@ -147,21 +172,69 @@ namespace Chart
     }
 
     /// <summary>
+    /// Create shapes
+    /// </summary>
+    public virtual void CreateSeries()
+    {
+      Control.ViewArea.SetPanel("View", new CanvasImageControl());
+    }
+
+    /// <summary>
+    /// Create shapes
+    /// </summary>
+    public virtual void CreateShapes()
+    {
+      if (_shapes.Any())
+      {
+        Control.ViewArea.GetPanel("Levels");
+
+        return;
+      }
+
+      // Create once and keep state
+
+      _shapes.Clear();
+
+      var levels = new LineShape
+      {
+        Composer = this,
+        Panel = Control.ViewArea.SetPanel("Levels", new CanvasImageControl()) as ICanvasControl
+      };
+
+      _shapes.Add(levels);
+    }
+
+    /// <summary>
     /// Update delegate
     /// </summary>
     public virtual void Update()
     {
-      var panel = Control.ViewArea.GetPanel("Shapes") as ICanvasControl;
-
       CreateIndexDomain();
       CreateValueDomain();
+      UpdateDecorators();
+      UpdateSeries();
+      UpdateShapes();
+    }
 
+    /// <summary>
+    /// Update decorators
+    /// </summary>
+    public virtual void UpdateDecorators()
+    {
       foreach (var decorator in _decoratorsUpdates)
       {
         decorator.Panel.Clear();
         decorator.Update();
         decorator.Panel.Invalidate();
       }
+    }
+
+    /// <summary>
+    /// Update series
+    /// </summary>
+    public virtual void UpdateSeries()
+    {
+      var panel = Control.ViewArea.SetPanel("View", new CanvasImageControl()) as ICanvasControl;
 
       panel.Clear();
 
@@ -174,17 +247,46 @@ namespace Chart
           continue;
         }
 
-        Groups.TryGetValue(Name, out IDictionary<string, IShape> seriesItems);
+        Groups.TryGetValue(Name, out IDictionary<string, ISeries> seriesItems);
 
         foreach (var series in seriesItems)
         {
           series.Value.Panel = panel;
           series.Value.Composer = this;
-          series.Value.CreateShape(i, series.Key, Items);
+          series.Value.CreateItem(i, series.Key, Items);
         }
       }
 
       panel.Invalidate();
+    }
+
+    /// <summary>
+    /// Update shapes
+    /// </summary>
+    public virtual void UpdateShapes()
+    {
+      foreach (var shape in _shapes)
+      {
+        shape.Panel.Clear();
+        shape.UpdateShape();
+        shape.Panel.Invalidate();
+      }
+    }
+
+    /// <summary>
+    /// Update levels
+    /// </summary>
+    public virtual void UpdateLevels(IList<int> indexLevels, IList<double> valueLevels)
+    {
+      var levels = _shapes.Where(o => o is LineShape);
+
+      foreach (LineShape level in levels)
+      {
+        level.IndexLevels = indexLevels ?? new int[0];
+        level.ValueLevels = valueLevels ?? new double[0];
+      }
+
+      UpdateShapes();
     }
 
     /// <summary>
@@ -234,7 +336,7 @@ namespace Chart
           continue;
         }
 
-        Groups.TryGetValue(Name, out IDictionary<string, IShape> seriesItems);
+        Groups.TryGetValue(Name, out IDictionary<string, ISeries> seriesItems);
 
         foreach (var series in seriesItems)
         {
@@ -260,6 +362,12 @@ namespace Chart
       _valueDomain[0] = min;
       _valueDomain[1] = max;
 
+      if (min == max)
+      {
+        _valueDomain[0] -= 1.0;
+        _valueDomain[1] += 1.0;
+      }
+
       return _valueDomain;
     }
 
@@ -279,11 +387,13 @@ namespace Chart
 
       var deltaX = (input.X - MinIndex) / (MaxIndex - MinIndex);
       var deltaY = (input.Y - MinValue) / (MaxValue - MinValue);
+      var deltaW = panel.W;
+      var deltaH = panel.H;
 
       // Percentage to pixels, Y is inverted
 
-      input.X = panel.W * deltaX;
-      input.Y = panel.H - panel.H * deltaY;
+      input.X = deltaW * deltaX;
+      input.Y = deltaH - deltaH * deltaY;
 
       return input;
     }
@@ -321,11 +431,19 @@ namespace Chart
     }
 
     /// <summary>
-    /// Format content
+    /// Format index label
     /// </summary>
-    public virtual string CreateContent(dynamic position)
+    public virtual string ShowIndex(dynamic input)
     {
-      return $"{position:0.00}";
+      return ShowIndexAction == null ? $"{input:0.00}" : ShowIndexAction(input);
+    }
+
+    /// <summary>
+    /// Format value label
+    /// </summary>
+    public virtual string ShowValue(dynamic input)
+    {
+      return ShowValueAction == null ? $"{input:0.00}" : ShowValueAction(input);
     }
   }
 }

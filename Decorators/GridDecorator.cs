@@ -1,6 +1,7 @@
-using Chart.ModelSpace;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Chart.DecoratorSpace
 {
@@ -8,18 +9,19 @@ namespace Chart.DecoratorSpace
   {
     public override void CreateDelegate()
     {
-      var shapeModel = new ShapeModel { Size = 1, Color = Brushes.LightGray.Color };
-
+      var canvas = Panel as Canvas;
       var pointMin = new Point(0, 0);
       var pointMax = new Point(0, Panel.H);
       var count = Composer.IndexLabelCount;
       var step = Panel.W / count;
 
+      canvas.Children.Clear();
+
       for (var i = 1; i < count; i++)
       {
         pointMin.X = step * i;
         pointMax.X = step * i;
-        Panel.CreateLine(pointMin, pointMax, shapeModel);
+        canvas.Children.Add(CreateLine(pointMin, pointMax));
       }
 
       pointMin = new Point(0, 0);
@@ -31,8 +33,28 @@ namespace Chart.DecoratorSpace
       {
         pointMin.Y = step * i;
         pointMax.Y = step * i;
-        Panel.CreateLine(pointMin, pointMax, shapeModel);
+        canvas.Children.Add(CreateLine(pointMin, pointMax));
       }
+    }
+
+    /// <summary>
+    /// Create line
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="destination"></param>
+    /// <returns></returns>
+    private Line CreateLine(Point source, Point destination)
+    {
+      return new Line
+      {
+        X1 = source.X,
+        Y1 = source.Y,
+        X2 = destination.X,
+        Y2 = destination.Y,
+        StrokeThickness = 1,
+        Stroke = new SolidColorBrush(Color),
+        StrokeDashArray = new DoubleCollection(new[] { 5.0, 5.0 })
+      };
     }
   }
 }

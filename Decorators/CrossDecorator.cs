@@ -18,6 +18,16 @@ namespace Chart.DecoratorSpace
     private Border _boxB = null;
 
     /// <summary>
+    /// Label background color
+    /// </summary>
+    public virtual Color ColorBack { get; set; } = Brushes.DarkGray.Color;
+
+    /// <summary>
+    /// Label color
+    /// </summary>
+    public virtual Color ColorFront { get; set; } = Brushes.White.Color;
+
+    /// <summary>
     /// Label size
     /// </summary>
     public virtual int FontSize { get; set; } = 10;
@@ -45,8 +55,8 @@ namespace Chart.DecoratorSpace
     /// </summary>
     public override void CreateDelegate()
     {
-      ShowIndex ??= Composer.CreateContent;
-      ShowValue ??= Composer.CreateContent;
+      ShowIndex ??= Composer.ShowIndex;
+      ShowValue ??= Composer.ShowValue;
 
       // Cross lines
 
@@ -58,8 +68,8 @@ namespace Chart.DecoratorSpace
       canvas.MouseLeave += OnMouseLeave;
 
       canvas.Children.Clear();
-      canvas.Children.Add(_lineX = CreateLine() as Line);
-      canvas.Children.Add(_lineY = CreateLine() as Line);
+      canvas.Children.Add(_lineX = CreateLine());
+      canvas.Children.Add(_lineY = CreateLine());
 
       // Cross labels
 
@@ -72,10 +82,10 @@ namespace Chart.DecoratorSpace
       canvasR.Children.Clear();
       canvasT.Children.Clear();
       canvasB.Children.Clear();
-      canvasL.Children.Add(_boxL = CreateBox(canvasL.Width, FontSize, HorizontalAlignment.Right) as Border);
-      canvasR.Children.Add(_boxR = CreateBox(canvasL.Width, FontSize, HorizontalAlignment.Left) as Border);
-      canvasT.Children.Add(_boxT = CreateBox(0, FontSize, HorizontalAlignment.Center) as Border);
-      canvasB.Children.Add(_boxB = CreateBox(0, FontSize, HorizontalAlignment.Center) as Border);
+      canvasL.Children.Add(_boxL = CreateLabel(PanelL, HorizontalAlignment.Right) as Border);
+      canvasR.Children.Add(_boxR = CreateLabel(PanelR, HorizontalAlignment.Left) as Border);
+      canvasT.Children.Add(_boxT = CreateLabel(null, HorizontalAlignment.Center) as Border);
+      canvasB.Children.Add(_boxB = CreateLabel(null, HorizontalAlignment.Center) as Border);
 
       Canvas.SetTop(_boxL, -1000);
       Canvas.SetTop(_boxR, -1000);
@@ -90,7 +100,7 @@ namespace Chart.DecoratorSpace
     /// Create line
     /// </summary>
     /// <returns></returns>
-    private FrameworkElement CreateLine()
+    private Line CreateLine()
     {
       return new Line
       {
@@ -99,47 +109,51 @@ namespace Chart.DecoratorSpace
         Y1 = 0,
         Y2 = 0,
         StrokeThickness = 1,
-        Stroke = Brushes.Black,
+        Stroke = new SolidColorBrush(Color),
         StrokeDashArray = new DoubleCollection(new[] { 5.0, 5.0 })
       };
     }
 
     /// <summary>
-    /// Create box
+    /// Create label
     /// </summary>
-    /// <param name="W"></param>
-    /// <param name="H"></param>
+    /// <param name="panel"></param>
     /// <param name="posH"></param>
     /// <returns></returns>
-    private FrameworkElement CreateBox(double W, double H, HorizontalAlignment posH)
+    private FrameworkElement CreateLabel(ICanvasControl panel, HorizontalAlignment posH)
     {
       var step = Composer.StepSize;
       var label = new TextBlock
       {
-        Text = "Demo",
-        FontSize = H,
+        Text = "0.0",
+        FontSize = FontSize,
         VerticalAlignment = VerticalAlignment.Center,
         HorizontalAlignment = posH,
-        Foreground = Brushes.White,
+        Foreground = new SolidColorBrush(ColorFront),
         Margin = new Thickness(0),
         Padding = new Thickness(0)
       };
 
       var container = new Border
       {
-        Height = H + step,
+        Height = FontSize + step,
         Child = label,
         ClipToBounds = true,
         Margin = new Thickness(0),
         Padding = new Thickness(0),
         BorderThickness = new Thickness(0),
-        Background = Brushes.DarkGray
+        Background = new SolidColorBrush(ColorBack)
       };
+
+      if (panel != null)
+      {
+        container.Width = panel.W;
+      }
 
       switch (posH)
       {
-        case HorizontalAlignment.Left: container.Padding = new Thickness(step * 2, 0, 0, 0); container.Width = W; break;
-        case HorizontalAlignment.Right: container.Padding = new Thickness(0, 0, step * 2, 0); container.Width = W; break;
+        case HorizontalAlignment.Left: container.Padding = new Thickness(step * 2, 0, 0, 0); break;
+        case HorizontalAlignment.Right: container.Padding = new Thickness(0, 0, step * 2, 0); break;
         case HorizontalAlignment.Center: container.Padding = new Thickness(step, 0, step, 0); break;
       }
 
@@ -188,10 +202,10 @@ namespace Chart.DecoratorSpace
       (_boxT.Child as TextBlock).Text = ShowIndex(values.X);
       (_boxB.Child as TextBlock).Text = ShowIndex(values.X);
 
-      Canvas.SetTop(_boxL, position.Y - _boxL.Height / 2);
-      Canvas.SetTop(_boxR, position.Y - _boxL.Height / 2);
-      Canvas.SetLeft(_boxT, position.X - _boxL.Width / 2 + Composer.StepSize * 2);
-      Canvas.SetLeft(_boxB, position.X - _boxL.Width / 2 + Composer.StepSize * 2);
+      Canvas.SetTop(_boxL, position.Y - _boxL.ActualHeight / 2);
+      Canvas.SetTop(_boxR, position.Y - _boxR.ActualHeight / 2);
+      Canvas.SetLeft(_boxT, position.X - _boxT.ActualWidth / 2);
+      Canvas.SetLeft(_boxB, position.X - _boxB.ActualWidth / 2);
     }
   }
 }

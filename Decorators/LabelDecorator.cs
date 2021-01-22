@@ -1,13 +1,19 @@
 using Chart.EnumSpace;
-using Chart.ModelSpace;
 using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Chart.DecoratorSpace
 {
   public class LabelDecorator : BaseDecorator, IDecorator
   {
+    /// <summary>
+    /// Labels
+    /// </summary>
+    private IDictionary<int, TextBlock> _labels { get; set; } = new Dictionary<int, TextBlock>();
+
     /// <summary>
     /// Label size
     /// </summary>
@@ -33,7 +39,13 @@ namespace Chart.DecoratorSpace
     /// </summary>
     public override void CreateDelegate()
     {
-      CreateLabel();
+      var canvas = Panel as Canvas;
+
+      canvas.Children.Clear();
+
+      _labels.Clear();
+
+      CreateLabels();
     }
 
     /// <summary>
@@ -41,16 +53,16 @@ namespace Chart.DecoratorSpace
     /// </summary>
     public override void UpdateDelegate()
     {
-      CreateLabel();
+      CreateLabels();
     }
 
     /// <summary>
-    /// Update component
+    /// Create component
     /// </summary>
-    protected virtual void CreateLabel()
+    private void CreateLabels()
     {
-      ShowIndex ??= Composer.CreateContent;
-      ShowValue ??= Composer.CreateContent;
+      ShowIndex ??= Composer.ShowIndex;
+      ShowValue ??= Composer.ShowValue;
 
       var minIndex = Composer.MinIndex;
       var maxIndex = Composer.MaxIndex;
@@ -61,9 +73,7 @@ namespace Chart.DecoratorSpace
       var valueStep = Composer.ValueStep;
       var indexCount = Composer.IndexLabelCount;
       var valueCount = Composer.ValueCount;
-      var shapeModel = new ShapeModel { Size = 1, Color = Brushes.Black.Color };
-      var contentModel = new ShapeModel { Size = FontSize, Color = Brushes.Black.Color };
-      var point = new Point(0, 0);
+      var canvas = Panel as Canvas;
       var step = 0.0;
 
       switch (Position)
@@ -71,14 +81,13 @@ namespace Chart.DecoratorSpace
         case PositionEnum.Left:
 
           step = Panel.H / valueCount;
-          contentModel.Position = TextAlignment.Right;
-          point = new Point(Panel.W, 0);
-          point.X -= stepSize * 2;
 
           for (var i = 1; i < valueCount; i++)
           {
-            point.Y = step * i + contentModel.Size / 3;
-            Panel.CreateLabel(point, ShowValue(minValue + (valueCount - i) * valueStep), contentModel);
+            var label = CreateLabel(i, ShowValue(minValue + (valueCount - i) * valueStep));
+
+            Canvas.SetTop(label, step * i - label.DesiredSize.Height / 2);
+            Canvas.SetLeft(label, canvas.Width - label.DesiredSize.Width - stepSize * 2);
           }
 
           break;
@@ -86,14 +95,13 @@ namespace Chart.DecoratorSpace
         case PositionEnum.Right:
 
           step = Panel.H / valueCount;
-          contentModel.Position = TextAlignment.Left;
-          point = new Point(0, 0);
-          point.X += stepSize * 2;
 
           for (var i = 1; i < valueCount; i++)
           {
-            point.Y = step * i + contentModel.Size / 3;
-            Panel.CreateLabel(point, ShowValue(minValue + (valueCount - i) * valueStep), contentModel);
+            var label = CreateLabel(i, ShowValue(minValue + (valueCount - i) * valueStep));
+
+            Canvas.SetTop(label, step * i - label.DesiredSize.Height / 2);
+            Canvas.SetLeft(label, stepSize * 2);
           }
 
           break;
@@ -101,14 +109,13 @@ namespace Chart.DecoratorSpace
         case PositionEnum.Top:
 
           step = Panel.W / indexCount;
-          contentModel.Position = TextAlignment.Center;
-          point = new Point(Panel.W, Panel.H);
-          point.Y -= contentModel.Size;
 
           for (var i = 1; i < indexCount; i++)
           {
-            point.X = step * i;
-            Panel.CreateLabel(point, ShowIndex(minIndex + i * indexStep), contentModel);
+            var label = CreateLabel(i, ShowIndex(minIndex + i * indexStep));
+
+            Canvas.SetTop(label, canvas.Height - label.DesiredSize.Height - stepSize);
+            Canvas.SetLeft(label, step * i - label.DesiredSize.Width / 2);
           }
 
           break;
@@ -116,18 +123,51 @@ namespace Chart.DecoratorSpace
         case PositionEnum.Bottom:
 
           step = Panel.W / indexCount;
-          contentModel.Position = TextAlignment.Center;
-          point = new Point(Panel.W, 0);
-          point.Y += contentModel.Size * 1.5;
 
           for (var i = 1; i < indexCount; i++)
           {
-            point.X = step * i;
-            Panel.CreateLabel(point, ShowIndex(minIndex + i * indexStep), contentModel);
+            var label = CreateLabel(i, ShowIndex(minIndex + i * indexStep));
+
+            Canvas.SetTop(label, stepSize);
+            Canvas.SetLeft(label, step * i - label.DesiredSize.Width / 2);
           }
 
           break;
       }
+    }
+
+    /// <summary>
+    /// Create label
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="content"></param>
+    /// <returns></returns>
+    private TextBlock CreateLabel(int i, dynamic content)
+    {
+      var canvas = Panel as Canvas;
+
+      _labels.TryGetValue(i, out TextBlock label);
+
+      if (label == null)
+      {
+        label = new TextBlock
+        {
+          Text = content,
+          FontSize = FontSize,
+          Foreground = new SolidColorBrush(Color),
+          Margin = new Thickness(0),
+          Padding = new Thickness(0)
+        };
+
+        canvas.Children.Add(label);
+
+        _labels[i] = label;
+      }
+
+      label.Text = content;
+      label.Measure(new Size(double.MaxValue, double.MaxValue));
+
+      return label;
     }
   }
 }

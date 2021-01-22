@@ -1,6 +1,6 @@
 using Chart.ControlSpace;
 using Chart.ModelSpace;
-using Chart.ShapeSpace;
+using Chart.SeriesSpace;
 using System;
 using System.Collections.Generic;
 using System.Timers;
@@ -21,12 +21,12 @@ namespace Chart
     private Random _generator = new Random();
     private IList<IInputModel> _items = new List<IInputModel>();
     private IList<ComponentComposer> _composers = new List<ComponentComposer>();
-    private IDictionary<string, IDictionary<string, IShape>> _groups = new Dictionary<string, IDictionary<string, IShape>>
+    private IDictionary<string, IDictionary<string, ISeries>> _groups = new Dictionary<string, IDictionary<string, ISeries>>
     {
-      ["Candles"] = new Dictionary<string, IShape> { ["Candles X"] = new CandleShape(), ["Candles & Lines X"] = new LineShape(), ["Arrows"] = new ArrowShape() },
-      ["Lines"] = new Dictionary<string, IShape> { ["Lines X"] = new LineShape(), ["Lines Y"] = new LineShape() },
-      ["Bars"] = new Dictionary<string, IShape> { ["Bars X"] = new BarShape() },
-      ["Areas"] = new Dictionary<string, IShape> { ["Areas X"] = new AreaShape() }
+      ["Candles"] = new Dictionary<string, ISeries> { ["Candles X"] = new CandleSeries(), ["Candles & Lines X"] = new LineSeries(), ["Arrows"] = new ArrowSeries() },
+      ["Lines"] = new Dictionary<string, ISeries> { ["Lines X"] = new LineSeries(), ["Lines Y"] = new LineSeries() },
+      ["Bars"] = new Dictionary<string, ISeries> { ["Bars X"] = new BarSeries() },
+      ["Areas"] = new Dictionary<string, ISeries> { ["Areas X"] = new AreaSeries() }
     };
 
     /// <summary>
@@ -66,6 +66,7 @@ namespace Chart
           input.Close = input.Low + _generator.Next(1, 10);
           input.High = Math.Max(input.Open, input.Close) + _generator.Next(1, 10);
           input.Point = input.Close;
+          input.Direction = input.Close > input.Open ? 1.0 : -1.0;
 
           pointModel.Areas[area.Key].Series[series.Key].Model = input;
         }

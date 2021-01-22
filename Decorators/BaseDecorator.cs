@@ -1,10 +1,16 @@
 using Chart.ControlSpace;
 using System;
+using System.Windows.Media;
 
 namespace Chart.DecoratorSpace
 {
   public interface IDecorator : IDisposable
   {
+    /// <summary>
+    /// Color
+    /// </summary>
+    Color Color { get; set; }
+
     /// <summary>
     /// Create shape
     /// </summary>
@@ -38,6 +44,11 @@ namespace Chart.DecoratorSpace
 
   public abstract class BaseDecorator : IDecorator
   {
+    /// <summary>
+    /// Color
+    /// </summary>
+    public virtual Color Color { get; set; } = Brushes.Black.Color;
+
     /// <summary>
     /// Create shape
     /// </summary>

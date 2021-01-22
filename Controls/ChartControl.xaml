@@ -22,6 +22,7 @@
       <ColumnDefinition Width="Auto"></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <local:CanvasContainerControl
+      ClipToBounds="True"
       Background="Transparent"
       x:Name="ViewArea"
       Grid.Row="1"
@@ -29,7 +30,7 @@
     <local:CanvasContainerControl
       Background="Transparent"
       Margin="0,0,-1,0"
-      Width="50"
+      Width="60"
       x:Name="AxisL"
       Grid.Row="1"
       Grid.Column="0"
@@ -45,7 +46,7 @@
     <local:CanvasContainerControl
       Background="Transparent"
       Margin="-1,0,0,0"
-      Width="50"
+      Width="60"
       x:Name="AxisR"
       Grid.Row="1"
       Grid.Column="2"
