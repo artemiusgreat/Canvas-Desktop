@@ -13,7 +13,7 @@ namespace Chart.ModelSpace
     /// <summary>
     /// Areas
     /// </summary>
-    IDictionary<string, IAreaModel> Areas { get; set; }
+    IDictionary<string, IInputAreaModel> Areas { get; set; }
   }
 
   public class InputModel : BaseModel, IInputModel
@@ -26,6 +26,6 @@ namespace Chart.ModelSpace
     /// <summary>
     /// Areas
     /// </summary>
-    public virtual IDictionary<string, IAreaModel> Areas { get; set; } = new Dictionary<string, IAreaModel>();
+    public virtual IDictionary<string, IInputAreaModel> Areas { get; set; } = new Dictionary<string, IInputAreaModel>();
   }
 }

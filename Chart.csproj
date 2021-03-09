@@ -4,6 +4,19 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AssemblyName>Canvas</AssemblyName>
+    <Authors>artemiusgreat</Authors>
+    <Company></Company>
+    <Product>http://indemos.com</Product>
+    <Description>Generic real-time charts for WPF apps with built-in pan and zoom support. Financial and stock-trading charts.</Description>
+    <Copyright>http://indemos.com</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Indemos/Canvas</PackageProjectUrl>
+    <PackageIcon>Atom.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Indemos/Canvas</RepositoryUrl>
+    <PackageTags>finance chart opengl canvas trading gdi stock direct2d</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0-RC</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,6 +28,13 @@
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.1-dev-00188" />
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.3-preview.18" />
     <PackageReference Include="System.Interactive" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\Media\Photo\People-Me\Atom.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -16,16 +16,16 @@ namespace Chart.SeriesSpace
     /// <returns></returns>
     public override void CreateItem(int position, string series, IList<IInputModel> items)
     {
-      dynamic currentModel = GetModel(position, series, items);
+      var currentModel = GetModel(position, series, items);
 
-      if (currentModel == null)
+      if (currentModel?.Point == null)
       {
         return;
       }
 
       var size = Math.Max(position - (position - 1.0), 0.0) / 4;
 
-      var shapeModel = new ShapeModel
+      var shapeModel = new InputShapeModel
       {
         Size = 1,
         Color = currentModel.Color ?? Color

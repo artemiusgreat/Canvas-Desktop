@@ -75,14 +75,14 @@ namespace Chart.SeriesSpace
         return null;
       }
 
-      pointModel.Areas.TryGetValue(Composer.Name, out IAreaModel areaModel);
+      pointModel.Areas.TryGetValue(Composer.Name, out IInputAreaModel areaModel);
 
       if (areaModel == null || areaModel.Series == null)
       {
         return null;
       }
 
-      areaModel.Series.TryGetValue(series, out ISeriesModel seriesModel);
+      areaModel.Series.TryGetValue(series, out IInputSeriesModel seriesModel);
 
       if (seriesModel == null || seriesModel.Model == null)
       {
@@ -103,7 +103,7 @@ namespace Chart.SeriesSpace
     {
       var currentModel = GetModel(position, series, items);
 
-      if (currentModel == null)
+      if (currentModel?.Point == null)
       {
         return null;
       }

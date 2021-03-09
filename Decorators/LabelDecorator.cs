@@ -68,11 +68,11 @@ namespace Chart.DecoratorSpace
       var maxIndex = Composer.MaxIndex;
       var minValue = Composer.MinValue;
       var maxValue = Composer.MaxValue;
-      var stepSize = Composer.StepSize;
+      var stepSize = Composer.StepSize.Value;
       var indexStep = Composer.IndexStep;
       var valueStep = Composer.ValueStep;
-      var indexCount = Composer.IndexLabelCount;
-      var valueCount = Composer.ValueCount;
+      var indexCount = Composer.IndexLabelCount.Value;
+      var valueCount = Composer.ValueCount.Value;
       var canvas = Panel as Canvas;
       var step = 0.0;
 

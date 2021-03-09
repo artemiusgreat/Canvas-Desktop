@@ -2,7 +2,6 @@ using Chart.ControlSpace;
 using Chart.DecoratorSpace;
 using Chart.EnumSpace;
 using Chart.ModelSpace;
-using Chart.SeriesSpace;
 using Chart.ShapeSpace;
 using System;
 using System.Collections.Generic;
@@ -25,15 +24,16 @@ namespace Chart
     /// Properties
     /// </summary>
     public virtual string Name { get; set; }
-    public virtual int StepSize { get; set; } = 5;
-    public virtual int ValueCount { get; set; } = 6;
-    public virtual int IndexCount { get; set; } = 100;
-    public virtual int IndexLabelCount { get; set; } = 10;
+    public virtual int? StepSize { get; set; } = 5;
+    public virtual int? ValueCount { get; set; } = 6;
+    public virtual int? IndexCount { get; set; } = 100;
+    public virtual int? IndexLabelCount { get; set; } = 10;
+    public virtual double? ValueCenter { get; set; }
     public virtual ChartControl Control { get; set; }
+    public virtual IInputAreaModel Group { get; set; } = new InputAreaModel();
     public virtual IList<int> IndexDomain { get; set; }
     public virtual IList<double> ValueDomain { get; set; }
     public virtual IList<IInputModel> Items { get; set; } = new List<IInputModel>();
-    public virtual IDictionary<string, IDictionary<string, ISeries>> Groups { get; set; } = new Dictionary<string, IDictionary<string, ISeries>>();
     public virtual Func<dynamic, dynamic> ShowIndexAction { get; set; }
     public virtual Func<dynamic, dynamic> ShowValueAction { get; set; }
 
@@ -41,11 +41,11 @@ namespace Chart
     /// Getters
     /// </summary>
     public virtual int MinIndex => IndexDomain?.ElementAtOrDefault(0) ?? _indexDomain?.ElementAtOrDefault(0) ?? 0;
-    public virtual int MaxIndex => IndexDomain?.ElementAtOrDefault(1) ?? _indexDomain?.ElementAtOrDefault(1) ?? IndexCount;
-    public virtual int IndexStep => Math.Max((MaxIndex - MinIndex) / IndexLabelCount, 1);
+    public virtual int MaxIndex => IndexDomain?.ElementAtOrDefault(1) ?? _indexDomain?.ElementAtOrDefault(1) ?? IndexCount.Value;
+    public virtual int IndexStep => Math.Max((MaxIndex - MinIndex) / IndexLabelCount.Value, 1);
     public virtual double MinValue => ValueDomain?.ElementAtOrDefault(0) ?? _valueDomain?.ElementAtOrDefault(0) ?? 0.0;
-    public virtual double MaxValue => ValueDomain?.ElementAtOrDefault(1) ?? _valueDomain?.ElementAtOrDefault(1) ?? ValueCount;
-    public virtual double ValueStep => MaxValue == MinValue ? 1 : (MaxValue - MinValue) / ValueCount;
+    public virtual double MaxValue => ValueDomain?.ElementAtOrDefault(1) ?? _valueDomain?.ElementAtOrDefault(1) ?? ValueCount.Value;
+    public virtual double ValueStep => MaxValue == MinValue ? 1 : (MaxValue - MinValue) / ValueCount.Value;
     public virtual IList<int> AutoIndexDomain => _indexDomain;
     public virtual IList<double> AutoValueDomain => _valueDomain;
 
@@ -242,18 +242,16 @@ namespace Chart
       {
         var currentItem = Items.ElementAtOrDefault(i);
 
-        if (currentItem == null)
+        if (currentItem == null || Group.Series == null)
         {
           continue;
         }
 
-        Groups.TryGetValue(Name, out IDictionary<string, ISeries> seriesItems);
-
-        foreach (var series in seriesItems)
+        foreach (var series in Group.Series)
         {
-          series.Value.Panel = panel;
-          series.Value.Composer = this;
-          series.Value.CreateItem(i, series.Key, Items);
+          series.Value.Shape.Panel = panel;
+          series.Value.Shape.Composer = this;
+          series.Value.Shape.CreateItem(i, series.Key, Items);
         }
       }
 
@@ -312,7 +310,7 @@ namespace Chart
     {
       _indexDomain ??= new int[2];
       _indexDomain[0] = 0;
-      _indexDomain[1] = Math.Max(Items.Count, IndexCount);
+      _indexDomain[1] = Math.Max(Items.Count, IndexCount.Value);
 
       return _indexDomain;
     }
@@ -331,19 +329,17 @@ namespace Chart
       {
         var currentItem = Items.ElementAtOrDefault(i);
 
-        if (currentItem == null)
+        if (currentItem == null || Group.Series == null)
         {
           continue;
         }
 
-        Groups.TryGetValue(Name, out IDictionary<string, ISeries> seriesItems);
-
-        foreach (var series in seriesItems)
+        foreach (var series in Group.Series)
         {
-          series.Value.Panel = panel;
-          series.Value.Composer = this;
+          series.Value.Shape.Panel = panel;
+          series.Value.Shape.Composer = this;
 
-          var domain = series.Value.CreateDomain(i, series.Key, Items);
+          var domain = series.Value.Shape.CreateDomain(i, series.Key, Items);
 
           if (domain != null)
           {
@@ -358,15 +354,15 @@ namespace Chart
         return _valueDomain = null;
       }
 
-      var step = (max - min) / ValueCount;
+      var step = (max - min) / ValueCount.Value;
 
       _valueDomain ??= new double[2];
       _valueDomain[0] = min - step;
       _valueDomain[1] = max + step;
 
-      if (min <= 0 && max >= 0)
+      if (ValueCenter.HasValue)
       {
-        var domain = Math.Max(max, Math.Abs(min));
+        var domain = Math.Max(Math.Abs(max), Math.Abs(min)) + ValueCenter.Value;
 
         _valueDomain[0] = -domain;
         _valueDomain[1] = domain;

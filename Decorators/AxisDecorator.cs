@@ -19,9 +19,9 @@ namespace Chart.DecoratorSpace
     public override void CreateDelegate()
     {
       var canvas = Panel as Canvas;
-      var stepSize = Composer.StepSize;
-      var indexCount = Composer.IndexLabelCount;
-      var valueCount = Composer.ValueCount;
+      var stepSize = Composer.StepSize.Value;
+      var indexCount = Composer.IndexLabelCount.Value;
+      var valueCount = Composer.ValueCount.Value;
       var pointMin = new Point(0, 0);
       var pointMax = new Point(0, 0);
       var step = 0.0;

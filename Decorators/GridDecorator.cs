@@ -12,7 +12,7 @@ namespace Chart.DecoratorSpace
       var canvas = Panel as Canvas;
       var pointMin = new Point(0, 0);
       var pointMax = new Point(0, Panel.H);
-      var count = Composer.IndexLabelCount;
+      var count = Composer.IndexLabelCount.Value;
       var step = Panel.W / count;
 
       canvas.Children.Clear();
@@ -26,7 +26,7 @@ namespace Chart.DecoratorSpace
 
       pointMin = new Point(0, 0);
       pointMax = new Point(Panel.W, 0);
-      count = Composer.ValueCount;
+      count = Composer.ValueCount.Value;
       step = Panel.H / count;
 
       for (var i = 1; i < count; i++)

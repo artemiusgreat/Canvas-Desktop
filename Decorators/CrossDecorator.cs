@@ -89,8 +89,8 @@ namespace Chart.DecoratorSpace
 
       Canvas.SetTop(_boxL, -1000);
       Canvas.SetTop(_boxR, -1000);
-      Canvas.SetTop(_boxT, canvasT.Height - _boxT.Height - Composer.StepSize);
-      Canvas.SetTop(_boxB, Composer.StepSize);
+      Canvas.SetTop(_boxT, canvasT.Height - _boxT.Height - Composer.StepSize.Value);
+      Canvas.SetTop(_boxB, Composer.StepSize.Value);
 
       Canvas.SetLeft(_boxT, -1000);
       Canvas.SetLeft(_boxB, -1000);
@@ -122,7 +122,8 @@ namespace Chart.DecoratorSpace
     /// <returns></returns>
     private FrameworkElement CreateLabel(ICanvasControl panel, HorizontalAlignment posH)
     {
-      var step = Composer.StepSize;
+      var step = Composer.StepSize.Value;
+
       var label = new TextBlock
       {
         Text = "0.0",

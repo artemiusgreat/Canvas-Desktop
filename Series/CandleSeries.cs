@@ -2,7 +2,6 @@ using Chart.ModelSpace;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Chart.SeriesSpace
 {
@@ -47,11 +46,15 @@ namespace Chart.SeriesSpace
         return;
       }
 
+      var L = currentModel.Low ?? currentModel.Point;
+      var H = currentModel.High ?? currentModel.Point;
+      var O = currentModel.Open ?? currentModel.Point;
+      var C = currentModel.Close ?? currentModel.Point;
       var size = Math.Max(position - (position - 1.0), 0.0) / 4.0;
-      var upSide = Math.Max(currentModel.Open, currentModel.Close);
-      var downSide = Math.Min(currentModel.Open, currentModel.Close);
+      var upSide = Math.Max(O, C);
+      var downSide = Math.Min(O, C);
 
-      var shapeModel = new ShapeModel
+      var shapeModel = new InputShapeModel
       {
         Size = 1,
         Color = currentModel.Color ?? Color
@@ -68,8 +71,8 @@ namespace Chart.SeriesSpace
 
       Panel.CreateShape(points, shapeModel);
       Panel.CreateLine(
-        Composer.GetPixels(Panel, position, currentModel.Low),
-        Composer.GetPixels(Panel, position, currentModel.High),
+        Composer.GetPixels(Panel, position, L),
+        Composer.GetPixels(Panel, position, H),
         shapeModel);
     }
   }

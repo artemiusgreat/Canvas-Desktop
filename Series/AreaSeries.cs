@@ -18,12 +18,12 @@ namespace Chart.SeriesSpace
       var currentModel = GetModel(position, series, items);
       var previousModel = GetModel(position - 1, series, items);
 
-      if (currentModel == null || previousModel == null)
+      if (currentModel?.Point == null || previousModel?.Point == null)
       {
         return;
       }
 
-      var shapeModel = new ShapeModel
+      var shapeModel = new InputShapeModel
       {
         Size = 1,
         Color = currentModel.Color ?? Color

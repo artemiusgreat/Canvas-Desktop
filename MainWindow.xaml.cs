@@ -21,14 +21,8 @@ namespace Chart
     private DateTime _time = DateTime.Now;
     private Random _generator = new Random();
     private IList<IInputModel> _items = new List<IInputModel>();
+    private IList<IInputAreaModel> _groups = new List<IInputAreaModel>();
     private IList<ComponentComposer> _composers = new List<ComponentComposer>();
-    private IDictionary<string, IDictionary<string, ISeries>> _groups = new Dictionary<string, IDictionary<string, ISeries>>
-    {
-      ["Candles"] = new Dictionary<string, ISeries> { ["Candles X"] = new CandleSeries(), ["Candles & Lines X"] = new LineSeries(), ["Arrows"] = new ArrowSeries() },
-      ["Lines"] = new Dictionary<string, ISeries> { ["Lines X"] = new LineSeries(), ["Lines Y"] = new LineSeries() },
-      ["Bars"] = new Dictionary<string, ISeries> { ["Bars X"] = new BarSeries() },
-      ["Areas"] = new Dictionary<string, ISeries> { ["Areas X"] = new AreaSeries() }
-    };
 
     /// <summary>
     /// Constructor
@@ -52,13 +46,13 @@ namespace Chart
 
       foreach (var area in _groups)
       {
-        pointModel.Areas[area.Key] = new AreaModel { Series = new Dictionary<string, ISeriesModel>() };
-        pointModel.Areas[area.Key].Name = area.Key;
+        pointModel.Areas[area.Name] = new InputAreaModel { Series = new Dictionary<string, IInputSeriesModel>() };
+        pointModel.Areas[area.Name].Name = area.Name;
 
-        foreach (var series in area.Value)
+        foreach (var series in area.Series)
         {
-          pointModel.Areas[area.Key].Series[series.Key] = new SeriesModel();
-          pointModel.Areas[area.Key].Series[series.Key].Name = series.Key;
+          pointModel.Areas[area.Name].Series[series.Key] = new InputSeriesModel();
+          pointModel.Areas[area.Name].Series[series.Key].Name = series.Key;
 
           dynamic input = new BaseModel();
 
@@ -78,7 +72,7 @@ namespace Chart
             case AreaSeries o: input.Color = Brushes.DarkGray.Color; break;
           }
 
-          pointModel.Areas[area.Key].Series[series.Key].Model = input;
+          pointModel.Areas[area.Name].Series[series.Key].Model = input;
         }
       }
 
@@ -96,6 +90,8 @@ namespace Chart
 
     private void OnRender(object sender, EventArgs e)
     {
+      _groups = CreateGroups();
+
       Dispatcher.BeginInvoke(new Action(() =>
       {
         var index = 0;
@@ -112,8 +108,8 @@ namespace Chart
 
           var composer = new ComponentComposer
           {
-            Name = area.Key,
-            Groups = _groups,
+            Group = area,
+            Name = area.Name,
             Control = chartControl,
             ShowIndexAction = (i) =>
             {
@@ -157,7 +153,7 @@ namespace Chart
           foreach (var composer in _composers)
           {
             composer.IndexDomain ??= new int[2];
-            composer.IndexDomain[0] = composer.Items.Count - composer.IndexCount;
+            composer.IndexDomain[0] = composer.Items.Count - composer.IndexCount.Value;
             composer.IndexDomain[1] = composer.Items.Count;
           }
 
@@ -165,6 +161,52 @@ namespace Chart
         };
 
       }), DispatcherPriority.ApplicationIdle, null);
+    }
+
+    /// <summary>
+    /// Define chart areas
+    /// </summary>
+    /// <returns></returns>
+    private IList<IInputAreaModel> CreateGroups()
+    {
+      return new List<IInputAreaModel>
+      {
+        new InputAreaModel
+        {
+          Name = "Candles",
+          Series = new Dictionary<string, IInputSeriesModel>
+          {
+            ["Candles X"] = new InputSeriesModel { Name = "Candles X", Shape = new CandleSeries() },
+            ["Lines X"] = new InputSeriesModel { Name = "Lines X", Shape = new LineSeries() },
+            ["Arrows X"] = new InputSeriesModel { Name = "Arrows X", Shape = new ArrowSeries() }
+          }
+        },
+        new InputAreaModel
+        {
+          Name = "Lines",
+          Series = new Dictionary<string, IInputSeriesModel>
+          {
+            ["Lines Y"] = new InputSeriesModel { Name = "Lines Y", Shape = new LineSeries() },
+            ["Lines Z"] = new InputSeriesModel { Name = "Lines Z", Shape = new LineSeries() }
+          }
+        },
+        new InputAreaModel
+        {
+          Name = "Bars",
+          Series = new Dictionary<string, IInputSeriesModel>
+          {
+            ["Bars X"] = new InputSeriesModel { Name = "Bars X", Shape = new BarSeries() }
+          }
+        },
+        new InputAreaModel
+        {
+          Name = "Areas",
+          Series = new Dictionary<string, IInputSeriesModel>
+          {
+            ["Areas X"] = new InputSeriesModel { Name = "Areas X", Shape = new AreaSeries() }
+          }
+        }
+      };
     }
   }
 }

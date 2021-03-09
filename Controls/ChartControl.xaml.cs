@@ -112,6 +112,20 @@ namespace Chart.ControlSpace
     }
 
     /// <summary>
+    /// Double clck event in the view area
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnMouseDownView(object sender, MouseButtonEventArgs e)
+    {
+      if (e.ClickCount == 2)
+      {
+        Composer.ValueDomain = null;
+        Composer.Update();
+      }
+    }
+
+    /// <summary>
     /// Value scale
     /// </summary>
     /// <param name="position"></param>
@@ -157,7 +171,7 @@ namespace Chart.ControlSpace
     {
       Composer.IndexDomain ??= new int[2];
 
-      var increment = Composer.IndexLabelCount / 2 * delta;
+      var increment = Composer.IndexLabelCount.Value / 2 * delta;
       var isInRange = Composer.IndexDomain[1] - Composer.IndexDomain[0] - increment * 2 > increment * 2;
 
       if (isZoom && isInRange)
