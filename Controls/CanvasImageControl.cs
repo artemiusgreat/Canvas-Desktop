@@ -27,6 +27,13 @@ namespace Chart.ControlSpace
     {
       Loaded += (object sender, RoutedEventArgs e) =>
       {
+        // Ensure that canvas doesn't exist
+
+        RemoveVisualChild(_panel);
+        RemoveLogicalChild(_panel);
+
+        // Create canvas
+
         AddVisualChild(_panel);
         AddLogicalChild(_panel);
       };

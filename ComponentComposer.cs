@@ -28,7 +28,7 @@ namespace Chart
     public virtual int? ValueCount { get; set; } = 6;
     public virtual int? IndexCount { get; set; } = 100;
     public virtual int? IndexLabelCount { get; set; } = 10;
-    public virtual double? ValueCenter { get; set; }
+    public virtual double? ValueSpace { get; set; }
     public virtual ChartControl Control { get; set; }
     public virtual IInputAreaModel Group { get; set; } = new InputAreaModel();
     public virtual IList<int> IndexDomain { get; set; }
@@ -321,6 +321,7 @@ namespace Chart
     /// <returns></returns>
     public virtual IList<double> CreateValueDomain()
     {
+      var average = 0.0;
       var min = double.MaxValue;
       var max = double.MinValue;
       var panel = Control.ViewArea.GetPanel("Shapes") as ICanvasControl;
@@ -345,6 +346,7 @@ namespace Chart
           {
             min = Math.Min(min, domain[0]);
             max = Math.Max(max, domain[1]);
+            average += max - min;
           }
         }
       }
@@ -354,15 +356,21 @@ namespace Chart
         return _valueDomain = null;
       }
 
-      var step = (max - min) / ValueCount.Value;
-
       _valueDomain ??= new double[2];
-      _valueDomain[0] = min - step;
-      _valueDomain[1] = max + step;
+      _valueDomain[0] = min;
+      _valueDomain[1] = max;
 
-      if (ValueCenter.HasValue)
+      if (ValueSpace.HasValue)
       {
-        var domain = Math.Max(Math.Abs(max), Math.Abs(min)) + ValueCenter.Value;
+        average = average / Math.Max(MaxIndex - MinIndex, 1) * ValueSpace.Value / 100;
+
+        _valueDomain[0] = min - average;
+        _valueDomain[1] = max + average;
+      }
+
+      if (min < 0 && max > 0)
+      {
+        var domain = Math.Max(Math.Abs(max), Math.Abs(min));
 
         _valueDomain[0] = -domain;
         _valueDomain[1] = domain;

@@ -7,16 +7,18 @@
     <AssemblyName>Canvas</AssemblyName>
     <Authors>artemiusgreat</Authors>
     <Company></Company>
-    <Product>http://indemos.com</Product>
+    <Product>Canvas</Product>
     <Description>Generic real-time charts for WPF apps with built-in pan and zoom support. Financial and stock-trading charts.</Description>
     <Copyright>http://indemos.com</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Indemos/Canvas</PackageProjectUrl>
-    <PackageIcon>Atom.png</PackageIcon>
+    <PackageIcon>CanvasAtom.png</PackageIcon>
     <RepositoryUrl>https://github.com/Indemos/Canvas</RepositoryUrl>
     <PackageTags>finance chart opengl canvas trading gdi stock direct2d</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.0-RC</Version>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -31,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\Media\Photo\People-Me\Atom.png">
+    <None Include="Screens\CanvasAtom.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
