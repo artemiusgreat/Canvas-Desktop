@@ -42,37 +42,42 @@ namespace Chart.ControlSpace
     /// <param name="index"></param>
     /// <param name="item"></param>
     /// <returns></returns>
-    public Panel SetPanel(string index, Panel item)
+    public Panel GetPanel(string index, Panel item)
+    {
+      var panel = GetPanel(index);
+
+      if (panel == null)
+      {
+        item.VerticalAlignment = VerticalAlignment.Stretch;
+        item.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+        Children.Add(_panels[index] = panel = item);
+      }
+
+      return UpdateSize(panel, ActualWidth, ActualHeight);
+    }
+
+    /// <summary>
+    /// Create new layer
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public Panel DeletePanel(string index)
     {
       if (_panels.TryGetValue(index, out Panel control))
       {
-        // Delete
+        _panels.Remove(index);
 
-        if (item == null)
+        if (control != null)
         {
-          _panels.Remove(index);
-
-          if (control != null)
-          {
-            Children.Remove(control);
-          }
-
-          return null;
+          Children.Remove(control);
         }
 
-        return UpdateSize(control, ActualWidth, ActualHeight);
+        return control;
       }
 
-      // Create
-
-      item.VerticalAlignment = VerticalAlignment.Stretch;
-      item.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-      Children.Add(_panels[index] = item);
-
-      UpdateSize(item, ActualWidth, ActualHeight);
-
-      return item;
+      return null;
     }
 
     /// <summary>

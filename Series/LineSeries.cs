@@ -12,7 +12,7 @@ namespace Chart.SeriesSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public override void CreateItem(int position, string series, IList<IInputModel> items)
+    public override void CreateItem(int position, string series, IList<IPointModel> items)
     {
       var currentModel = GetModel(position, series, items);
       var previousModel = GetModel(position - 1, series, items);
@@ -22,7 +22,7 @@ namespace Chart.SeriesSpace
         return;
       }
 
-      var shapeModel = new InputShapeModel
+      var shapeModel = new ShapeModel
       {
         Size = 1,
         Color = currentModel.Color ?? Color

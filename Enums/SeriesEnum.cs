@@ -1,6 +1,6 @@
 namespace Chart.EnumSpace
 {
-  public enum ChartTypeEnum : byte
+  public enum SeriesEnum : byte
   {
     None = 0,
     Bar = 1,

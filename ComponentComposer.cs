@@ -30,10 +30,10 @@ namespace Chart
     public virtual int? IndexLabelCount { get; set; } = 10;
     public virtual double? ValueSpace { get; set; }
     public virtual ChartControl Control { get; set; }
-    public virtual IInputAreaModel Group { get; set; } = new InputAreaModel();
+    public virtual IAreaModel Group { get; set; } = new AreaModel();
     public virtual IList<int> IndexDomain { get; set; }
     public virtual IList<double> ValueDomain { get; set; }
-    public virtual IList<IInputModel> Items { get; set; } = new List<IInputModel>();
+    public virtual IList<IPointModel> Items { get; set; } = new List<IPointModel>();
     public virtual Func<dynamic, dynamic> ShowIndexAction { get; set; }
     public virtual Func<dynamic, dynamic> ShowValueAction { get; set; }
 
@@ -68,79 +68,81 @@ namespace Chart
       {
         Composer = this,
         Color = Brushes.LightGray.Color,
-        Panel = Control.ViewArea.SetPanel("Grid", new CanvasControl()) as ICanvasControl
+        Panel = Control.View.GetPanel(nameof(PanelEnum.Grid), new CanvasControl()) as ICanvasControl
       };
 
       var axisT = new AxisDecorator
       {
         Composer = this,
-        Position = PositionEnum.Top,
+        Position = PositionEnum.T,
         Color = Brushes.DarkGray.Color,
-        Panel = Control.AxisT.SetPanel("AxisT", new CanvasControl()) as ICanvasControl
+        Panel = Control.AxisT.GetPanel(nameof(PanelEnum.AxisT), new CanvasControl()) as ICanvasControl
       };
 
       var axisB = new AxisDecorator
       {
         Composer = this,
-        Position = PositionEnum.Bottom,
+        Position = PositionEnum.B,
         Color = Brushes.DarkGray.Color,
-        Panel = Control.AxisB.SetPanel("AxisB", new CanvasControl()) as ICanvasControl
+        Panel = Control.AxisB.GetPanel(nameof(PanelEnum.AxisB), new CanvasControl()) as ICanvasControl
       };
 
       var axisL = new AxisDecorator
       {
         Composer = this,
-        Position = PositionEnum.Left,
+        Position = PositionEnum.L,
         Color = Brushes.DarkGray.Color,
-        Panel = Control.AxisL.SetPanel("AxisL", new CanvasControl()) as ICanvasControl
+        Panel = Control.AxisL.GetPanel(nameof(PanelEnum.AxisL), new CanvasControl()) as ICanvasControl
       };
 
       var axisR = new AxisDecorator
       {
         Composer = this,
-        Position = PositionEnum.Right,
+        Position = PositionEnum.R,
         Color = Brushes.DarkGray.Color,
-        Panel = Control.AxisR.SetPanel("AxisR", new CanvasControl()) as ICanvasControl
+        Panel = Control.AxisR.GetPanel(nameof(PanelEnum.AxisR), new CanvasControl()) as ICanvasControl
       };
 
       var labelsT = new LabelDecorator
       {
         Composer = this,
-        Position = PositionEnum.Top,
-        Panel = Control.AxisT.SetPanel("LabelsT", new CanvasControl()) as ICanvasControl
+        Position = PositionEnum.T,
+        Panel = Control.AxisT.GetPanel(nameof(PanelEnum.LabelT), new CanvasControl()) as ICanvasControl
       };
 
       var labelsB = new LabelDecorator
       {
         Composer = this,
-        Position = PositionEnum.Bottom,
-        Panel = Control.AxisB.SetPanel("LabelsB", new CanvasControl()) as ICanvasControl
+        Position = PositionEnum.B,
+        Panel = Control.AxisB.GetPanel(nameof(PanelEnum.LabelB), new CanvasControl()) as ICanvasControl
       };
 
       var labelsL = new LabelDecorator
       {
         Composer = this,
-        Position = PositionEnum.Left,
-        Panel = Control.AxisL.SetPanel("LabelsL", new CanvasControl()) as ICanvasControl
+        Position = PositionEnum.L,
+        Panel = Control.AxisL.GetPanel(nameof(PanelEnum.LabelL), new CanvasControl()) as ICanvasControl
       };
 
       var labelsR = new LabelDecorator
       {
         Composer = this,
-        Position = PositionEnum.Right,
-        Panel = Control.AxisR.SetPanel("LabelsR", new CanvasControl()) as ICanvasControl
+        Position = PositionEnum.R,
+        Panel = Control.AxisR.GetPanel(nameof(PanelEnum.LabelR), new CanvasControl()) as ICanvasControl
       };
 
-      var crossView = Control.ViewArea.SetPanel("Cross", new CanvasControl());
+      var crossView = Control
+        .View
+        .GetPanel(nameof(PanelEnum.Cross), new CanvasControl());
 
       var cross = new CrossDecorator
       {
         Composer = this,
         Panel = crossView as ICanvasControl,
-        PanelL = Control.AxisL.SetPanel("CrossL", new CanvasControl()) as ICanvasControl,
-        PanelR = Control.AxisR.SetPanel("CrossR", new CanvasControl()) as ICanvasControl,
-        PanelT = Control.AxisT.SetPanel("CrossT", new CanvasControl()) as ICanvasControl,
-        PanelB = Control.AxisB.SetPanel("CrossB", new CanvasControl()) as ICanvasControl
+        PanelL = Control.AxisL.GetPanel(nameof(PanelEnum.CrossL), new CanvasControl()) as ICanvasControl,
+        PanelR = Control.AxisR.GetPanel(nameof(PanelEnum.CrossR), new CanvasControl()) as ICanvasControl,
+        PanelT = Control.AxisT.GetPanel(nameof(PanelEnum.CrossT), new CanvasControl()) as ICanvasControl,
+        PanelB = Control.AxisB.GetPanel(nameof(PanelEnum.CrossB), new CanvasControl()) as ICanvasControl
       };
 
       crossView.Background = Brushes.Transparent;
@@ -176,7 +178,7 @@ namespace Chart
     /// </summary>
     public virtual void CreateSeries()
     {
-      Control.ViewArea.SetPanel("View", new CanvasImageControl());
+      Control.View.GetPanel(nameof(PanelEnum.Series), new CanvasImageControl());
     }
 
     /// <summary>
@@ -186,22 +188,18 @@ namespace Chart
     {
       if (_shapes.Any())
       {
-        Control.ViewArea.GetPanel("Levels");
-
+        Control.View.GetPanel(nameof(PanelEnum.Levels));
         return;
       }
 
       // Create once and keep state
 
       _shapes.Clear();
-
-      var levels = new LineShape
+      _shapes.Add(new LineShape
       {
         Composer = this,
-        Panel = Control.ViewArea.SetPanel("Levels", new CanvasImageControl()) as ICanvasControl
-      };
-
-      _shapes.Add(levels);
+        Panel = Control.View.GetPanel(nameof(PanelEnum.Levels), new CanvasImageControl()) as ICanvasControl
+      });
     }
 
     /// <summary>
@@ -230,11 +228,11 @@ namespace Chart
     }
 
     /// <summary>
-    /// Update series
+    /// Update series and collections
     /// </summary>
     public virtual void UpdateSeries()
     {
-      var panel = Control.ViewArea.SetPanel("View", new CanvasImageControl()) as ICanvasControl;
+      var panel = Control.View.GetPanel(nameof(PanelEnum.Series), new CanvasImageControl()) as ICanvasControl;
 
       panel.Clear();
 
@@ -259,7 +257,7 @@ namespace Chart
     }
 
     /// <summary>
-    /// Update shapes
+    /// Update static shapes
     /// </summary>
     public virtual void UpdateShapes()
     {
@@ -324,7 +322,6 @@ namespace Chart
       var average = 0.0;
       var min = double.MaxValue;
       var max = double.MinValue;
-      var panel = Control.ViewArea.GetPanel("Shapes") as ICanvasControl;
 
       foreach (var i in GetEnumerator())
       {
@@ -337,7 +334,6 @@ namespace Chart
 
         foreach (var series in Group.Series)
         {
-          series.Value.Shape.Panel = panel;
           series.Value.Shape.Composer = this;
 
           var domain = series.Value.Shape.CreateDomain(i, series.Key, Items);

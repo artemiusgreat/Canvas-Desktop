@@ -23,7 +23,7 @@
     </Grid.ColumnDefinitions>
     <local:CanvasContainerControl
       Background="Transparent"
-      x:Name="ViewArea"
+      x:Name="View"
       Grid.Row="1"
       Grid.Column="1"
       MouseDown="OnMouseDownView" />

@@ -41,8 +41,8 @@ namespace Chart.ControlSpace
     /// <param name="e"></param>
     private void OnSize(object sender, SizeChangedEventArgs e)
     {
-      Composer.Create();
-      Composer.Update();
+      Composer?.Create();
+      Composer?.Update();
     }
 
     /// <summary>

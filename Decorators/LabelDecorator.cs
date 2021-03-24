@@ -78,7 +78,7 @@ namespace Chart.DecoratorSpace
 
       switch (Position)
       {
-        case PositionEnum.Left:
+        case PositionEnum.L:
 
           step = Panel.H / valueCount;
 
@@ -92,7 +92,7 @@ namespace Chart.DecoratorSpace
 
           break;
 
-        case PositionEnum.Right:
+        case PositionEnum.R:
 
           step = Panel.H / valueCount;
 
@@ -106,7 +106,7 @@ namespace Chart.DecoratorSpace
 
           break;
 
-        case PositionEnum.Top:
+        case PositionEnum.T:
 
           step = Panel.W / indexCount;
 
@@ -120,7 +120,7 @@ namespace Chart.DecoratorSpace
 
           break;
 
-        case PositionEnum.Bottom:
+        case PositionEnum.B:
 
           step = Panel.W / indexCount;
 

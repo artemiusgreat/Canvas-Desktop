@@ -20,8 +20,8 @@ namespace Chart
     private int _index = 0;
     private DateTime _time = DateTime.Now;
     private Random _generator = new Random();
-    private IList<IInputModel> _items = new List<IInputModel>();
-    private IList<IInputAreaModel> _groups = new List<IInputAreaModel>();
+    private IList<IPointModel> _items = new List<IPointModel>();
+    private IList<IAreaModel> _groups = new List<IAreaModel>();
     private IList<ComponentComposer> _composers = new List<ComponentComposer>();
 
     /// <summary>
@@ -37,7 +37,7 @@ namespace Chart
     /// </summary>
     private void OnData()
     {
-      var pointModel = new InputModel
+      var pointModel = new PointModel
       {
         Time = _time,
       };
@@ -46,12 +46,12 @@ namespace Chart
 
       foreach (var area in _groups)
       {
-        pointModel.Areas[area.Name] = new InputAreaModel { Series = new Dictionary<string, IInputSeriesModel>() };
+        pointModel.Areas[area.Name] = new AreaModel { Series = new Dictionary<string, ISeriesModel>() };
         pointModel.Areas[area.Name].Name = area.Name;
 
         foreach (var series in area.Series)
         {
-          pointModel.Areas[area.Name].Series[series.Key] = new InputSeriesModel();
+          pointModel.Areas[area.Name].Series[series.Key] = new SeriesModel();
           pointModel.Areas[area.Name].Series[series.Key].Name = series.Key;
 
           dynamic input = new BaseModel();
@@ -167,43 +167,43 @@ namespace Chart
     /// Define chart areas
     /// </summary>
     /// <returns></returns>
-    private IList<IInputAreaModel> CreateGroups()
+    private IList<IAreaModel> CreateGroups()
     {
-      return new List<IInputAreaModel>
+      return new List<IAreaModel>
       {
-        new InputAreaModel
+        new AreaModel
         {
           Name = "Candles",
-          Series = new Dictionary<string, IInputSeriesModel>
+          Series = new Dictionary<string, ISeriesModel>
           {
-            ["Candles X"] = new InputSeriesModel { Name = "Candles X", Shape = new CandleSeries() },
-            ["Lines X"] = new InputSeriesModel { Name = "Lines X", Shape = new LineSeries() },
-            ["Arrows X"] = new InputSeriesModel { Name = "Arrows X", Shape = new ArrowSeries() }
+            ["Candles X"] = new SeriesModel { Name = "Candles X", Shape = new CandleSeries() },
+            ["Lines X"] = new SeriesModel { Name = "Lines X", Shape = new LineSeries() },
+            ["Arrows X"] = new SeriesModel { Name = "Arrows X", Shape = new ArrowSeries() }
           }
         },
-        new InputAreaModel
+        new AreaModel
         {
           Name = "Lines",
-          Series = new Dictionary<string, IInputSeriesModel>
+          Series = new Dictionary<string, ISeriesModel>
           {
-            ["Lines Y"] = new InputSeriesModel { Name = "Lines Y", Shape = new LineSeries() },
-            ["Lines Z"] = new InputSeriesModel { Name = "Lines Z", Shape = new LineSeries() }
+            ["Lines Y"] = new SeriesModel { Name = "Lines Y", Shape = new LineSeries() },
+            ["Lines Z"] = new SeriesModel { Name = "Lines Z", Shape = new LineSeries() }
           }
         },
-        new InputAreaModel
+        new AreaModel
         {
           Name = "Bars",
-          Series = new Dictionary<string, IInputSeriesModel>
+          Series = new Dictionary<string, ISeriesModel>
           {
-            ["Bars X"] = new InputSeriesModel { Name = "Bars X", Shape = new BarSeries() }
+            ["Bars X"] = new SeriesModel { Name = "Bars X", Shape = new BarSeries() }
           }
         },
-        new InputAreaModel
+        new AreaModel
         {
           Name = "Areas",
-          Series = new Dictionary<string, IInputSeriesModel>
+          Series = new Dictionary<string, ISeriesModel>
           {
-            ["Areas X"] = new InputSeriesModel { Name = "Areas X", Shape = new AreaSeries() }
+            ["Areas X"] = new SeriesModel { Name = "Areas X", Shape = new AreaSeries() }
           }
         }
       };

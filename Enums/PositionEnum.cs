@@ -3,9 +3,9 @@ namespace Chart.EnumSpace
   public enum PositionEnum : byte
   {
     None = 0,
-    Top = 1,
-    Left = 2,
-    Right = 3,
-    Bottom = 4
+    T = 1,
+    L = 2,
+    R = 3,
+    B = 4
   }
 }

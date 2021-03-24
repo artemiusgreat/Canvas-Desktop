@@ -51,7 +51,7 @@ namespace Chart.ControlSpace
     /// <param name="pointSource"></param>
     /// <param name="pointDestination"></param>
     /// <param name="shapeModel"></param>
-    public override void CreateLine(Point pointSource, Point pointDestination, IInputShapeModel shapeModel)
+    public override void CreateLine(Point pointSource, Point pointDestination, IShapeModel shapeModel)
     {
       CreateCanvas();
 
@@ -77,7 +77,7 @@ namespace Chart.ControlSpace
     /// </summary>
     /// <param name="point"></param>
     /// <param name="shapeModel"></param>
-    public override void CreateCircle(Point point, IInputShapeModel shapeModel)
+    public override void CreateCircle(Point point, IShapeModel shapeModel)
     {
       CreateCanvas();
 
@@ -101,7 +101,7 @@ namespace Chart.ControlSpace
     /// </summary>
     /// <param name="points"></param>
     /// <param name="shapeModel"></param>
-    public override void CreateShape(IList<Point> points, IInputShapeModel shapeModel)
+    public override void CreateShape(IList<Point> points, IShapeModel shapeModel)
     {
       CreateCanvas();
 
@@ -140,7 +140,7 @@ namespace Chart.ControlSpace
     /// <param name="point"></param>
     /// <param name="content"></param>
     /// <param name="shapeModel"></param>
-    public override void CreateLabel(Point point, string content, IInputShapeModel shapeModel)
+    public override void CreateLabel(Point point, string content, IShapeModel shapeModel)
     {
       CreateCanvas();
 

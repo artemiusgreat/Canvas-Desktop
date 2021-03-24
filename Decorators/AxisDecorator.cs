@@ -30,28 +30,28 @@ namespace Chart.DecoratorSpace
 
       switch (Position)
       {
-        case PositionEnum.Left:
+        case PositionEnum.L:
 
           pointMin = new Point(Panel.W, 0);
           pointMax = new Point(Panel.W, Panel.H);
 
           break;
 
-        case PositionEnum.Right:
+        case PositionEnum.R:
 
           pointMin = new Point(0, 0);
           pointMax = new Point(0, Panel.H);
 
           break;
 
-        case PositionEnum.Top:
+        case PositionEnum.T:
 
           pointMin = new Point(0, Panel.H);
           pointMax = new Point(Panel.W, Panel.H);
 
           break;
 
-        case PositionEnum.Bottom:
+        case PositionEnum.B:
 
           pointMin = new Point(0, 0);
           pointMax = new Point(Panel.W, 0);
@@ -63,7 +63,7 @@ namespace Chart.DecoratorSpace
 
       switch (Position)
       {
-        case PositionEnum.Left:
+        case PositionEnum.L:
 
           step = Panel.H / valueCount;
           pointMin = new Point(Panel.W, 0);
@@ -78,7 +78,7 @@ namespace Chart.DecoratorSpace
 
           break;
 
-        case PositionEnum.Right:
+        case PositionEnum.R:
 
           step = Panel.H / valueCount;
           pointMin = new Point(0, 0);
@@ -93,7 +93,7 @@ namespace Chart.DecoratorSpace
 
           break;
 
-        case PositionEnum.Top:
+        case PositionEnum.T:
 
           step = Panel.W / indexCount;
           pointMin = new Point(0, Panel.H);
@@ -108,7 +108,7 @@ namespace Chart.DecoratorSpace
 
           break;
 
-        case PositionEnum.Bottom:
+        case PositionEnum.B:
 
           step = Panel.W / indexCount;
           pointMin = new Point(0, 0);

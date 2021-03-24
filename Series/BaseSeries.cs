@@ -30,7 +30,7 @@ namespace Chart.SeriesSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    double[] CreateDomain(int position, string series, IList<IInputModel> items);
+    double[] CreateDomain(int position, string series, IList<IPointModel> items);
 
     /// <summary>
     /// Create the shape
@@ -39,7 +39,7 @@ namespace Chart.SeriesSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    void CreateItem(int position, string series, IList<IInputModel> items);
+    void CreateItem(int position, string series, IList<IPointModel> items);
   }
 
   public abstract class BaseSeries : ISeries
@@ -66,7 +66,7 @@ namespace Chart.SeriesSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public virtual dynamic GetModel(int position, string series, IList<IInputModel> items)
+    public virtual dynamic GetModel(int position, string series, IList<IPointModel> items)
     {
       var pointModel = items.ElementAtOrDefault(position);
 
@@ -75,14 +75,14 @@ namespace Chart.SeriesSpace
         return null;
       }
 
-      pointModel.Areas.TryGetValue(Composer.Name, out IInputAreaModel areaModel);
+      pointModel.Areas.TryGetValue(Composer.Name, out IAreaModel areaModel);
 
       if (areaModel == null || areaModel.Series == null)
       {
         return null;
       }
 
-      areaModel.Series.TryGetValue(series, out IInputSeriesModel seriesModel);
+      areaModel.Series.TryGetValue(series, out ISeriesModel seriesModel);
 
       if (seriesModel == null || seriesModel.Model == null)
       {
@@ -99,7 +99,7 @@ namespace Chart.SeriesSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public virtual double[] CreateDomain(int position, string series, IList<IInputModel> items)
+    public virtual double[] CreateDomain(int position, string series, IList<IPointModel> items)
     {
       var currentModel = GetModel(position, series, items);
 
@@ -122,7 +122,7 @@ namespace Chart.SeriesSpace
     /// <param name="series"></param>
     /// <param name="items"></param>
     /// <returns></returns>
-    public virtual void CreateItem(int position, string series, IList<IInputModel> items)
+    public virtual void CreateItem(int position, string series, IList<IPointModel> items)
     {
     }
   }

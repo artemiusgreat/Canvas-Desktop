@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Chart.ModelSpace
 {
-  public interface IInputModel : IModel
+  public interface IPointModel : IModel
   {
     /// <summary>
     /// Time
@@ -13,10 +13,10 @@ namespace Chart.ModelSpace
     /// <summary>
     /// Areas
     /// </summary>
-    IDictionary<string, IInputAreaModel> Areas { get; set; }
+    IDictionary<string, IAreaModel> Areas { get; set; }
   }
 
-  public class InputModel : BaseModel, IInputModel
+  public class PointModel : BaseModel, IPointModel
   {
     /// <summary>
     /// Time
@@ -26,6 +26,6 @@ namespace Chart.ModelSpace
     /// <summary>
     /// Areas
     /// </summary>
-    public virtual IDictionary<string, IInputAreaModel> Areas { get; set; } = new Dictionary<string, IInputAreaModel>();
+    public virtual IDictionary<string, IAreaModel> Areas { get; set; } = new Dictionary<string, IAreaModel>();
   }
 }

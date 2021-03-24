@@ -23,21 +23,21 @@ namespace Chart.ControlSpace
     /// <param name="pointSource"></param>
     /// <param name="pointDestination"></param>
     /// <param name="shapeModel"></param>
-    void CreateLine(Point pointSource, Point pointDestination, IInputShapeModel shapeModel);
+    void CreateLine(Point pointSource, Point pointDestination, IShapeModel shapeModel);
 
     /// <summary>
     /// Create circle
     /// </summary>
     /// <param name="point"></param>
     /// <param name="shapeModel"></param>
-    void CreateCircle(Point point, IInputShapeModel shapeModel);
+    void CreateCircle(Point point, IShapeModel shapeModel);
 
     /// <summary>
     /// Create shape
     /// </summary>
     /// <param name="points"></param>
     /// <param name="shapeModel"></param>
-    void CreateShape(IList<Point> points, IInputShapeModel shapeModel);
+    void CreateShape(IList<Point> points, IShapeModel shapeModel);
 
     /// <summary>
     /// Create label
@@ -45,7 +45,7 @@ namespace Chart.ControlSpace
     /// <param name="point"></param>
     /// <param name="content"></param>
     /// <param name="shapeModel"></param>
-    void CreateLabel(Point point, string content, IInputShapeModel shapeModel);
+    void CreateLabel(Point point, string content, IShapeModel shapeModel);
 
     /// <summary>
     /// Invalidate canvas
@@ -76,7 +76,7 @@ namespace Chart.ControlSpace
     /// <param name="pointSource"></param>
     /// <param name="pointDestination"></param>
     /// <param name="shapeModel"></param>
-    public virtual void CreateLine(Point pointSource, Point pointDestination, IInputShapeModel shapeModel)
+    public virtual void CreateLine(Point pointSource, Point pointDestination, IShapeModel shapeModel)
     {
     }
 
@@ -85,7 +85,7 @@ namespace Chart.ControlSpace
     /// </summary>
     /// <param name="point"></param>
     /// <param name="shapeModel"></param>
-    public virtual void CreateCircle(Point point, IInputShapeModel shapeModel)
+    public virtual void CreateCircle(Point point, IShapeModel shapeModel)
     {
     }
 
@@ -94,7 +94,7 @@ namespace Chart.ControlSpace
     /// </summary>
     /// <param name="points"></param>
     /// <param name="shapeModel"></param>
-    public virtual void CreateShape(IList<Point> points, IInputShapeModel shapeModel)
+    public virtual void CreateShape(IList<Point> points, IShapeModel shapeModel)
     {
     }
 
@@ -104,7 +104,7 @@ namespace Chart.ControlSpace
     /// <param name="point"></param>
     /// <param name="content"></param>
     /// <param name="shapeModel"></param>
-    public virtual void CreateLabel(Point point, string content, IInputShapeModel shapeModel)
+    public virtual void CreateLabel(Point point, string content, IShapeModel shapeModel)
     {
     }
 

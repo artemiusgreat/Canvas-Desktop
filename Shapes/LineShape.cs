@@ -11,7 +11,7 @@ namespace Chart.ShapeSpace
 
     public override void UpdateShape()
     {
-      var shapeModel = new InputShapeModel { Size = 1, Color = Color };
+      var shapeModel = new ShapeModel { Size = 1, Color = Color };
       var pointMin = new Point(0, 0);
       var pointMax = new Point(0, 0);
 
