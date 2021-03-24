@@ -4,7 +4,7 @@ Generic real-time charts for WPF apps.
 
 The main purpose of this app is to be used as a charting tool for real-time financial applications, e.g. backtesters for trading strategies. 
 Here is [the most comprehensive guide](https://github.com/artemiusgreat/Csharp-Data-Visualization) dedicated to charting in .NET that I have seen so far. 
-Nevertheless, trying various options from that guide I wasn't able to find anything flexible enough for my needs, so created my own. 
+Nevertheless, trying various options from that guide I wasn't able to find anything flexible enough for my needs, so created my own. Available in [Nuget](https://www.nuget.org/packages/Canvas/1.0.1-RC).
 
 # Drawing Methods
 
