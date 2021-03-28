@@ -64,7 +64,7 @@ MinIndex -= 1
 MaxIndex += 1
 ```
 
-# Data source sample
+# Data source structure
 
 To simplify sycnhronization of multiple charts, data source has format of a list where each entry point has a time stamp and a set of Areas and Series that will be rendered in the relevant viewport. 
 
