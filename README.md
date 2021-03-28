@@ -87,9 +87,9 @@ To simplify sycnhronization of multiple charts, data source has format of a list
       Bar Series => double
     }
   }, 
-  DateTime,
-  DateTime,
-  DateTime
+  DateTime { ... },
+  DateTime { ... },
+  DateTime { ... }
 ]
 
 ```
