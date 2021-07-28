@@ -3,7 +3,7 @@
 Generic real-time charts for WPF apps. 
 
 The main purpose of this app is to be used as a charting tool for real-time financial applications, e.g. backtesters for trading strategies. 
-Here is [the most comprehensive guide](https://github.com/artemiusgreat/Csharp-Data-Visualization) dedicated to charting in .NET that I have seen so far. 
+Here is [the most comprehensive guide](https://github.com/swharden/Csharp-Data-Visualization) dedicated to charting in .NET that I have seen so far. 
 Nevertheless, trying various options from that guide I wasn't able to find anything flexible enough for my needs, so created my own. Available in [Nuget](https://www.nuget.org/packages/Canvas/1.0.1-RC).
 
 # Drawing Methods
@@ -13,7 +13,7 @@ Currently available controls.
 * CanvasControl - extended WPF `Canvas` control exposing `DrawingContext` used with `Shapes` and `Geometries`
 * CanvasImageControl - a wrapper around [SkiaSharp](https://github.com/mono/SkiaSharp) and Open GL 
 
-In order to add a different type of panel, e.g. `GDI+` or `Direct2D`, you need to implement `ICanvasControl` interface.
+In order to add a different type of panel, e.g. `GDI+` or `Direct 2D`, you need to implement `ICanvasControl` interface.
 
 # Chart Types 
 
@@ -103,3 +103,7 @@ At this moment, `Painter` supports only horizontal orientation, so the axis X is
 # Preview 
 
 ![](Screens/Preview.png)
+
+# Notes and Roadmaps
+
+The app is currently implemented as WPF, so it depends on `Direct 2D` and Windows API under the hood. In order to make it cross-platform, and use it e.g. in Linux, it's possible to switch to `Avalonia` and make `AxisDecorator` use `SkiaSharp` and `Open GL` for drawing. No estimate for when it will happen, but collaborators willing to speed up migration to the cross-platform version are very welcomed. 
