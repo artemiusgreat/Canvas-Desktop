@@ -1,3 +1,7 @@
+# Update
+
+Further development will continue in the [cross platform version](https://github.com/Indemos/Canvas-V2) only. 
+
 # Canvas and Open GL Stock and Financial Charts
 
 Generic real-time charts for WPF apps. 
