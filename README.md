@@ -47,7 +47,7 @@ MinIndex -= 1
 MaxIndex -= 1
 ```
 
-To pan the chart to the left, do the opposite. 
+To pan the chart to the right, do the opposite. 
 
 ```C#
 MinIndex += 1
