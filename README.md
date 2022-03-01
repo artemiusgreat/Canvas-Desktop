@@ -110,4 +110,5 @@ At this moment, `Painter` supports only horizontal orientation, so the axis X is
 
 # Notes and Roadmaps
 
-The app is currently implemented as WPF, so it depends on `Direct 2D` and Windows API under the hood. In order to make it cross-platform, and use it e.g. in Linux, it's possible to switch to `Avalonia` and make `AxisDecorator` use `SkiaSharp` and `Open GL` for drawing. No estimate for when it will happen, but collaborators willing to speed up migration to the cross-platform version are very welcomed. 
+The app is currently implemented as WPF, so it depends on `Direct 2D` and Windows API under the hood. 
+For cross-platform version check [this](https://github.com/Indemos/Canvas-V2).
