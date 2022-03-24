@@ -110,8 +110,3 @@ At this moment, `Painter` supports only horizontal orientation, so the axis X is
 # Preview 
 
 ![](Screens/Preview.png)
-
-# Notes and Roadmaps
-
-The app is currently implemented as WPF, so it depends on `Direct 2D` and Windows API under the hood. 
-For cross-platform version check [this](https://github.com/Indemos/Canvas-V2).
