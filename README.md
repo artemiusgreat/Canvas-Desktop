@@ -1,6 +1,8 @@
 # Update 
 
-The most active development continues in the cross-platform web version - https://github.com/Indemos/Canvas
+The most active development continues in the cross-platform web version 
+
+https://github.com/Indemos/Canvas
 
 # Canvas and Open GL Stock and Financial Charts
 
@@ -114,9 +116,3 @@ At this moment, `Painter` supports only horizontal orientation, so the axis X is
 # Preview 
 
 ![](Screens/Preview.png)
-
-# Notes 
-
-This repository contains cross-platform desktop charts for WPF anf Avalonia. For cross-platform and cross-browser version, check this repository. 
-
-https://github.com/Indemos/Canvas-V3
