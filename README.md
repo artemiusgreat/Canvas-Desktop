@@ -2,8 +2,8 @@
 
 Further development will continue in the cross-platform versions. 
 
-- Web - https://github.com/Indemos/Canvas-V3
-- Desktop - https://github.com/Indemos/Canvas-V2  
+- Web - https://github.com/Indemos/Canvas
+- Desktop - https://github.com/Indemos/Canvas-Desktop  
 
 # Canvas and Open GL Stock and Financial Charts
 
