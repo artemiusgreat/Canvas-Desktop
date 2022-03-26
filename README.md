@@ -1,24 +1,28 @@
-# Update
+# Update 
 
-Further development will continue in the cross-platform versions. 
-
-- Web - https://github.com/Indemos/Canvas
-- Desktop - https://github.com/Indemos/Canvas-Desktop  
+The most active development continues in the cross-platform web version - https://github.com/Indemos/Canvas
 
 # Canvas and Open GL Stock and Financial Charts
 
-Generic real-time charts for WPF apps. 
+Generic cross-platform real-time charts for Desktop apps. 
 
 The main purpose of this app is to be used as a charting tool for real-time financial applications, e.g. backtesters for trading strategies. 
 Here is [the most comprehensive guide](https://github.com/swharden/Csharp-Data-Visualization) dedicated to charting in .NET that I have seen so far. 
-Nevertheless, trying various options from that guide I wasn't able to find anything flexible enough for my needs, so created my own. Available in [Nuget](https://www.nuget.org/packages/Canvas/1.0.1-RC). Usage [sample](https://github.com/Indemos/Terminal-V2).
+Nevertheless, trying various options from that guide I wasn't able to find anything flexible enough for my needs, so created my own. Usage samples can be found [here](https://github.com/Indemos/Canvas-V2/tree/master/Samples) or as more complete example in a separate [repository](https://github.com/Indemos/Terminal-V2).
 
-# Drawing Methods
+# Nuget 
+
+```
+Install-Package Canvas.Views.WPF -Version 1.0.5-prerelease
+Install-Package Canvas.Views.Avalonia -Version 1.0.5-prerelease
+```
+
+# Drawing Methods 
 
 Currently available controls.
 
-* CanvasControl - extended WPF `Canvas` control exposing `DrawingContext` used with `Shapes` and `Geometries`
-* CanvasImageControl - a wrapper around [SkiaSharp](https://github.com/mono/SkiaSharp) and Open GL 
+* CanvasControl - base `Canvas` control exposing `DrawingContext` used with `Shapes` and `Geometries`
+* CanvasPanelControl - a wrapper around [SkiaSharp](https://github.com/mono/SkiaSharp) and Open GL 
 
 In order to add a different type of panel, e.g. `GDI+` or `Direct 2D`, you need to implement `ICanvasControl` interface.
 
@@ -110,3 +114,9 @@ At this moment, `Painter` supports only horizontal orientation, so the axis X is
 # Preview 
 
 ![](Screens/Preview.png)
+
+# Notes 
+
+This repository contains cross-platform desktop charts for WPF anf Avalonia. For cross-platform and cross-browser version, check this repository. 
+
+https://github.com/Indemos/Canvas-V3

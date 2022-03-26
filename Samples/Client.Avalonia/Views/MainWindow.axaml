@@ -1,0 +1,29 @@
+<Window
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:vm="using:Client.Avalonia.ViewModels"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:local="clr-namespace:Canvas.Views.Avalonia;assembly=Canvas.Views.Avalonia"
+  mc:Ignorable="d" 
+  d:DesignWidth="800" 
+  d:DesignHeight="450"
+  x:Class="Client.Avalonia.Views.MainWindow"
+  Title="Demo">
+  <Border Padding="0,0,0,20">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+      </Grid.RowDefinitions>
+      <local:CanvasView x:Name="ViewCandles" Grid.Row="0" />
+      <local:CanvasView x:Name="ViewBars" Grid.Row="1" />
+      <local:CanvasView x:Name="ViewLines" Grid.Row="2" />
+      <local:CanvasView x:Name="ViewAreas" Grid.Row="3" />
+      <local:CanvasView x:Name="ViewDeltas" Grid.Row="4" />
+    </Grid>
+  </Border>
+</Window>
