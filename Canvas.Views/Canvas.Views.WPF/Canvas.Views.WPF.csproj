@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
-    <StartupObject>Client.WPF.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Canvas.Views\Canvas.Views.WPF\Canvas.Views.WPF.csproj" />
+    <ProjectReference Include="..\..\Canvas.Source\Canvas.Source.csproj" />
   </ItemGroup>
 
 </Project>

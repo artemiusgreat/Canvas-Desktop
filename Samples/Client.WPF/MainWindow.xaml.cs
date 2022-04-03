@@ -1,6 +1,6 @@
 ﻿using Canvas.Views.WPF;
-using Core;
-using Core.ModelSpace;
+using Canvas.Source;
+using Canvas.Source.ModelSpace;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;

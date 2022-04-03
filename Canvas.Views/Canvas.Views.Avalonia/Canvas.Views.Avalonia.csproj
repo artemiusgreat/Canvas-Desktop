@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.12" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.12" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.12" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12" />
+    <PackageReference Include="Avalonia.Skia" Version="0.10.12" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Canvas.Views\Canvas.Views.Avalonia\Canvas.Views.Avalonia.csproj" />
+    <ProjectReference Include="..\..\Canvas.Source\Canvas.Source.csproj" />
   </ItemGroup>
 </Project>
