@@ -8,6 +8,17 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.9-prerelease</Version>
+    <Authors>artemiusgreat</Authors>
+    <Description>Generic real-time charts for Desktop apps with built-in pan and zoom support. Financial and stock-trading charts.</Description>
+    <PackageTags>finance chart opengl canvas trading gdi stock direct2d</PackageTags>
+    <RepositoryUrl>https://github.com/Indemos/Canvas-Desktop</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Indemos/Canvas-Desktop</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.88.0-preview.187" />
   </ItemGroup>

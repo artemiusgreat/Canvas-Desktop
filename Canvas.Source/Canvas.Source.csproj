@@ -6,6 +6,18 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.9-prerelease</Version>
+    <Authors>artemiusgreat</Authors>
+    <Description>Internal package used in Canvas.Views.WPF and Canvas.Views.Avalonia</Description>
+    <Copyright>http://indemos.com</Copyright>
+    <PackageProjectUrl>https://github.com/Indemos/Canvas-Desktop</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Indemos/Canvas-Desktop</RepositoryUrl>
+    <PackageTags>finance chart opengl canvas trading gdi stock direct2d</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="SkiaSharp" Version="2.88.0-preview.187" />
     <PackageReference Include="System.Interactive" Version="6.0.1" />

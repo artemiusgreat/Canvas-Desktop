@@ -1,8 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>1.0.9-prerelease</Version>
+    <Authors>artemiusgreat</Authors>
+    <Description>Generic real-time charts for Desktop apps with built-in pan and zoom support. Financial and stock-trading charts.</Description>
+    <Copyright>http://indemos.com</Copyright>
+    <PackageProjectUrl>https://github.com/Indemos/Canvas-Desktop</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Indemos/Canvas-Desktop</RepositoryUrl>
+    <PackageTags>finance chart opengl canvas trading gdi stock direct2d</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.12" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.12" />
@@ -10,7 +24,9 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12" />
     <PackageReference Include="Avalonia.Skia" Version="0.10.12" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\Canvas.Source\Canvas.Source.csproj" />
   </ItemGroup>
+  
 </Project>

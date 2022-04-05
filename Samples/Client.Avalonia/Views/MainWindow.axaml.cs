@@ -20,7 +20,7 @@ namespace Client.Avalonia.Views
     public Timer Interval = new(100);
     public Random Generator = new();
     public DateTime Time = DateTime.UtcNow;
-    public IList<CanvasView> Panels = new List<CanvasView>();
+    public List<CanvasView> Panels = new List<CanvasView>();
     public IList<IGroupModel> Points = new List<IGroupModel>();
 
     public MainWindow()
