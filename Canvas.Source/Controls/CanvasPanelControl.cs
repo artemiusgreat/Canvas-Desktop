@@ -243,6 +243,35 @@ namespace Canvas.Source.ControlSpace
     }
 
     /// <summary>
+    /// Draw label along the path
+    /// </summary>
+    /// <param name="points"></param>
+    /// <param name="shape"></param>
+    /// <param name="content"></param>
+    public override void CreateLabelShape(IList<IPointModel> points, IShapeModel shape, string content)
+    {
+      var origin = points.ElementAtOrDefault(0);
+
+      if (origin is null)
+      {
+        return;
+      }
+
+      _shapeRoute.Reset();
+      _shapeRoute.MoveTo((float)origin.Index.Value, (float)origin.Value);
+
+      for (var i = 1; i < points.Count; i++)
+      {
+        _shapeRoute.LineTo((float)points[i].Index.Value, (float)points[i].Value);
+      }
+
+      _penLabel.Color = shape.Color.Value;
+      _penLabel.TextSize = (float)shape.Size;
+
+      Panel.DrawTextOnPath(content, _shapeRoute, 0, _penLabel.TextSize / 2, _penLabel);
+    }
+
+    /// <summary>
     /// Measure content
     /// </summary>
     /// <param name="content"></param>

@@ -342,6 +342,7 @@ namespace Canvas.Source
         foreach (var shape in series.Groups)
         {
           shape.Value.Composer = this;
+          shape.Value.Panel = Panels[PanelEnum.Groups];
 
           var domain = shape.Value.CreateDomain(i, shape.Key, Groups);
 
