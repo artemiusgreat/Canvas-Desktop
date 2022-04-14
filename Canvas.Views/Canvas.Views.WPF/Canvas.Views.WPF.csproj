@@ -10,9 +10,9 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.1.0-prerelease</Version>
+    <Version>1.1.1-prerelease</Version>
     <Authors>artemiusgreat</Authors>
-    <Description>Generic real-time charts for Desktop apps with built-in pan and zoom support. Financial and stock-trading charts.</Description>
+    <Description>Generic real-time charts for Desktop apps with built-in pan and zoom support.</Description>
     <PackageTags>finance chart opengl canvas trading gdi stock direct2d</PackageTags>
     <RepositoryUrl>https://github.com/Indemos/Canvas-Desktop</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Indemos/Canvas-Desktop</PackageProjectUrl>

@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.1.0-prerelease</Version>
+    <Version>1.1.1-prerelease</Version>
     <Authors>artemiusgreat</Authors>
     <Description>Internal package used in Canvas.Views.WPF and Canvas.Views.Avalonia</Description>
     <Copyright>http://indemos.com</Copyright>
