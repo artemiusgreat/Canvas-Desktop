@@ -15,8 +15,8 @@ Nevertheless, trying various options from that guide I wasn't able to find anyth
 # Nuget 
 
 ```
-Install-Package Canvas.Views.WPF -Version 1.1.1-prerelease
-Install-Package Canvas.Views.Avalonia -Version 1.1.1-prerelease
+Install-Package Canvas.Views.WPF
+Install-Package Canvas.Views.Avalonia
 ```
 
 # Drawing Methods 
